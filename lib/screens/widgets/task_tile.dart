@@ -12,10 +12,23 @@ class TaskTile extends StatefulWidget {
   State<TaskTile> createState() => _TaskTileState();
 }
 
-class _TaskTileState extends State<TaskTile> {
+class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
 
   bool isChecked = false;
   //String currentUser = 'patelaunsh28@gmail.com';
+  late AnimationController animationController;
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    animationController.dispose();
+  }
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(duration: new Duration(seconds: 2), vsync: this);
+    animationController.repeat();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +147,24 @@ class _TaskTileState extends State<TaskTile> {
           );
         }
 
-        return Center(child: CircularProgressIndicator());
+        //return Center(child: CircularProgressIndicator());
+
+        return Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.height,
+          color: Colors.white,
+          child: Center(
+            child: CircularProgressIndicator(
+              //valueColor: AlwaysStoppedAnimation<Color>(kThemeBlueColor),
+              backgroundColor: kThemeBlueColor,
+              strokeWidth: 4.0,
+              color: Colors.white,
+              valueColor: animationController
+                  .drive(ColorTween(begin: Colors.blueAccent, end: kThemeBlueColor)),
+              //backgroundColor: Colors.white,
+            ),
+          ),
+        );
       },
     );
   }

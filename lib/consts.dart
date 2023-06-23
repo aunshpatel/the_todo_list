@@ -22,6 +22,10 @@ String currentUser = '';
 
 String activeUserEmail = '', activeUserName = '';
 
+bool automaticLogin = false;
+
+bool isLoggedIn = false;
+
 const kTextStyle = TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 20,
