@@ -20,6 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  //late SharedPreferences prefs;
+
   @override
   void initState() {
     _loadUserEmailPassword();
@@ -163,14 +165,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             setState(() {
                               automaticLogin = value!;
                             });
-                            //autoLogin(automaticLogin);
+                            autoLogin(automaticLogin);
                           },
                         ),
                         Text(
                           'Auto Login',
                           style: TextStyle(
-                              color: kBlackColor,
-                              fontSize: 16
+                            color: kBlackColor,
+                            fontSize: 16
                           ),
                         )
                       ],
@@ -197,9 +199,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           if(user != null){
                             Navigator.pushNamed(context, '/task_screen');
                             setState(() {
+                              SharedPreferences.getInstance().then((prefs) {
+                                prefs.setBool('isLoggedIn', true);
+                              },);
+                              //isLoggedIn = true;
                               currentUser = emailController.text;
                               showSpinner = false;
                             });
+
                           }
                           else{
                             _showMyDialog('Incorrect email or password. Please enter your email and password again.');
@@ -251,15 +258,31 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  autoLogin(bool autoLogin){
+    if(autoLogin == true){
+      actionRemeberMe(true);
+      SharedPreferences.getInstance().then((prefs) {
+        prefs.setBool('autoLogin', autoLogin);
+      },);
+    }
+    else{
+      actionRemeberMe(true);
+      SharedPreferences.getInstance().then((prefs) {
+        prefs.setBool('autoLogin', autoLogin);
+      },);
+    }
+  }
+
 
   void _loadUserEmailPassword() async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs = await SharedPreferences.getInstance();
       loginEmailID = prefs.getString('email') ?? '';
       loginPassword = prefs.getString('password') ?? '';
-
-      var rememberMe = prefs.getBool('remember_me') ?? false;
-
+      bool rememberMe = prefs.getBool('remember_me') ?? false;
+      automaticLogin = prefs.getBool('autoLogin') ?? false;
+      isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+      print("_loadUserEmailPassword loginEmailID:$loginEmailID, loginPassword:$loginPassword, rememberMe:$rememberMe, automaticLogin:$automaticLogin,isLoggedIn:$isLoggedIn");
       if (rememberMe == true) {
         setState(() {
           _isRememberMe = true;
@@ -276,6 +299,30 @@ class _LoginScreenState extends State<LoginScreen> {
         passwordController.text = '';
         loginPassword = '';
       }
+
+      if(automaticLogin == true && isLoggedIn == true){
+        //autoLogin(automaticLogin);
+        final user = await auth.signInWithEmailAndPassword(email: loginEmailID, password: loginPassword);
+        if(user != null){
+          Navigator.pushNamed(context, '/task_screen');
+          setState(() {
+            currentUser = emailController.text;
+            showSpinner = false;
+          });
+        }
+        else{
+          _showMyDialog('Incorrect email or password. Please enter your email and password again.');
+          setState(() {
+            showSpinner = false;
+          });
+        }
+      }
+      else{
+        SharedPreferences.getInstance().then((prefs) {
+          prefs.setBool('isLoggedIn', false);
+        },);
+      }
+
     } catch (e) {
       print(e);
     }

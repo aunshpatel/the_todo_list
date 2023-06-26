@@ -81,6 +81,10 @@ class _MyDrawerState extends State<MyDrawer> {
                   style: kTextStyle,
                 ),
                 onTap: (){
+                  isLoggedIn = false;
+                  SharedPreferences.getInstance().then((prefs) {
+                    prefs.setBool('isLoggedIn', isLoggedIn);
+                  },);
                   auth.signOut();
                   Navigator.pushNamed(context,'/login_screen');
                 },
