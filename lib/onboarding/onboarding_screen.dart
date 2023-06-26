@@ -192,7 +192,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             }
           },
           child: const Padding(
-            padding: defaultSkipButtonPadding,
+            padding: EdgeInsets.all(10),
             child: Text(
               'Skip',
               style: defaultSkipButtonTextStyle,
@@ -217,9 +217,34 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Navigator.pushNamed(context, '/login_screen');
           },
           child: const Padding(
-            padding: defaultProceedButtonPadding,
+            padding: EdgeInsets.all(10),
             child: Text(
               'Go to login',
+              style: defaultProceedButtonTextStyle,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Material get returnToTaskScreen {
+    return Material(
+      borderRadius: defaultProceedButtonBorderRadius,
+      color: kThemeBlueColor,
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: kWhiteColor)
+        ),
+        child: InkWell(
+          borderRadius: defaultProceedButtonBorderRadius,
+          onTap: () {
+            Navigator.pushNamed(context, '/task_screen');
+          },
+          child: const Padding(
+            padding: EdgeInsets.all(10),
+            child: Text(
+              'Go back',
               style: defaultProceedButtonTextStyle,
             ),
           ),
@@ -246,7 +271,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             },
             startPageIndex: 0,
             footerBuilder: (context, dragDistance, pagesLength, setIndex) {
-              return DecoratedBox(
+              return (howTo == false ? DecoratedBox(
                 decoration: const BoxDecoration(
                   color: kWhiteColor,
                 ),
@@ -274,6 +299,40 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ),
                 ),
+              ) :DecoratedBox(
+                decoration: const BoxDecoration(
+                  color: kWhiteColor,
+                ),
+                child: ColoredBox(
+                  color: kWhiteColor,
+                  child: Container(
+                    color: kThemeBlueColor,
+                    padding: const EdgeInsets.all(45.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomIndicator(
+                          netDragPercent: dragDistance,
+                          pagesLength: pagesLength,
+                          indicator: Indicator(
+                            indicatorDesign: IndicatorDesign.line(
+                              lineDesign: LineDesign(
+                                lineType: DesignType.line_uniform,
+                              ),
+                            ),
+                          ),
+                        ),
+                        returnToTaskScreen
+                      ],
+                    ),
+                  ),
+                ),
+              )
+              //     Container(
+              //   child: Center(
+              //     child: ,
+              //   ),
+              // )
               );
             },
           ),

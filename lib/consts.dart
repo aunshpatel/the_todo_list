@@ -31,6 +31,8 @@ bool isRememberMeDisabled = false;
 
 bool isLoggedIn = false;
 
+bool howTo = false;
+
 const kTextStyle = TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 20,

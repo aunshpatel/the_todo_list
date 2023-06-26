@@ -71,6 +71,27 @@ class _MyDrawerState extends State<MyDrawer> {
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
+                    color: kBlackColor,
+                  ),
+                ),
+              ),
+              child: ListTile(
+                title: const Text(
+                  'How To Use This App',
+                  style: kTextStyle,
+                ),
+                onTap: (){
+                  setState(() {
+                    howTo = true;
+                  });
+                  Navigator.pushNamed(context, '/onboarding_screen');
+                },
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
                     color: kWhiteColor,
                   )
                 )
