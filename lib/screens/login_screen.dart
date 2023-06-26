@@ -142,12 +142,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           fillColor: MaterialStateProperty.all(Colors.transparent),
                           value: _isRememberMe,
-                          onChanged: (value){
+                          onChanged: isRememberMeDisabled == false ? (value){
                             setState(() {
                               _isRememberMe = value!;
                             });
                             actionRemeberMe(_isRememberMe);
-                          },
+                          } : null,
                         ),
                         Text(
                           'Remember Me',
@@ -269,12 +269,20 @@ class _LoginScreenState extends State<LoginScreen> {
       actionRemeberMe(true);
       SharedPreferences.getInstance().then((prefs) {
         prefs.setBool('autoLogin', autoLogin);
+        setState(() {
+          isRememberMeDisabled = true;
+        });
+        prefs.setBool('isRememberMeDisabled', isRememberMeDisabled);
       },);
     }
     else{
       actionRemeberMe(true);
       SharedPreferences.getInstance().then((prefs) {
         prefs.setBool('autoLogin', autoLogin);
+        setState(() {
+          isRememberMeDisabled = false;
+        });
+        prefs.setBool('isRememberMeDisabled', isRememberMeDisabled);
       },);
     }
   }
@@ -288,7 +296,8 @@ class _LoginScreenState extends State<LoginScreen> {
       bool rememberMe = prefs.getBool('remember_me') ?? false;
       automaticLogin = prefs.getBool('autoLogin') ?? false;
       isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-      print("_loadUserEmailPassword loginEmailID:$loginEmailID, loginPassword:$loginPassword, rememberMe:$rememberMe, automaticLogin:$automaticLogin,isLoggedIn:$isLoggedIn");
+      isRememberMeDisabled = prefs.getBool('isRememberMeDisabled') ?? false;
+      print("_loadUserEmailPassword loginEmailID:$loginEmailID, loginPassword:$loginPassword, rememberMe:$rememberMe, automaticLogin:$automaticLogin,isLoggedIn:$isLoggedIn, isRememberMeDisabled:$isRememberMeDisabled");
       if (rememberMe == true) {
         setState(() {
           _isRememberMe = true;

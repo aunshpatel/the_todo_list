@@ -25,6 +25,8 @@ String activeUserEmail = '', activeUserName = '';
 
 bool automaticLogin = false;
 
+bool isRememberMeDisabled = false;
+
 bool isLoggedIn = false;
 
 const kTextStyle = TextStyle(
