@@ -66,6 +66,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                   onChanged:(value){
                     email = emailController.text;
+                    SharedPreferences.getInstance().then((prefs) {
+                      prefs.setString('email', email);
+                    },);
                   },
                   style: const TextStyle(color: kThemeBlueColor),
                   decoration: emailInputDecoration('Enter your email',),
@@ -78,6 +81,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: _passwordVisible == false ? true : false,
                   onChanged:(value){
                     pwd = passwordController.text;
+                    SharedPreferences.getInstance().then((prefs) {
+                      prefs.setString('password', pwd);
+                    },);
                   },
                   style: const TextStyle(color: kThemeBlueColor),
                   decoration: passwordInputDecoration(
@@ -250,8 +256,8 @@ class _LoginScreenState extends State<LoginScreen> {
     _isRememberMe = value;
     SharedPreferences.getInstance().then((prefs) {
       prefs.setBool("remember_me", _isRememberMe);
-      prefs.setString('email', emailController.text);
-      prefs.setString('password', passwordController.text);
+      // prefs.setString('email', emailController.text);
+      // prefs.setString('password', passwordController.text);
     },);
     setState(() {
       _isRememberMe = value;
