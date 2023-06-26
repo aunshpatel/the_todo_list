@@ -16,7 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String loginEmailID = '', loginPassword = '';
   bool showSpinner = false;
   bool _passwordVisible = false;
-  bool _isChecked = false;
+  bool _isRememberMe = false;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -123,27 +123,57 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 24.0,
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Checkbox(
-                      checkColor: kThemeBlueColor,
-                      side: MaterialStateBorderSide.resolveWith(
-                            (states) => const BorderSide(width: 1.0, color: kThemeBlueColor),
-                      ),
-                      fillColor: MaterialStateProperty.all(Colors.transparent),
-                      value: _isChecked,
-                      onChanged: (value){
-                        setState(() {
-                          _isChecked = value!;
-                        });
-                        actionRemeberMe(_isChecked);
-                      },
+                    Row(
+                      children: [
+                        Checkbox(
+                          checkColor: kThemeBlueColor,
+                          side: MaterialStateBorderSide.resolveWith(
+                                (states) => const BorderSide(width: 1.0, color: kThemeBlueColor),
+                          ),
+                          fillColor: MaterialStateProperty.all(Colors.transparent),
+                          value: _isRememberMe,
+                          onChanged: (value){
+                            setState(() {
+                              _isRememberMe = value!;
+                            });
+                            actionRemeberMe(_isRememberMe);
+                          },
+                        ),
+                        Text(
+                          'Remember Me',
+                          style: TextStyle(
+                              color: kBlackColor,
+                              fontSize: 16
+                          ),
+                        )
+                      ],
                     ),
-                    Text(
-                      'Remember Me',
-                      style: TextStyle(
-                        color: kBlackColor,
-                        fontSize: 16
-                      ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          checkColor: kThemeBlueColor,
+                          side: MaterialStateBorderSide.resolveWith(
+                                (states) => const BorderSide(width: 1.0, color: kThemeBlueColor),
+                          ),
+                          fillColor: MaterialStateProperty.all(Colors.transparent),
+                          value: automaticLogin,
+                          onChanged: (value){
+                            setState(() {
+                              automaticLogin = value!;
+                            });
+                            //autoLogin(automaticLogin);
+                          },
+                        ),
+                        Text(
+                          'Auto Login',
+                          style: TextStyle(
+                              color: kBlackColor,
+                              fontSize: 16
+                          ),
+                        )
+                      ],
                     )
                   ],
                 ),
@@ -210,14 +240,14 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   actionRemeberMe(bool value) {
-    _isChecked = value;
+    _isRememberMe = value;
     SharedPreferences.getInstance().then((prefs) {
-      prefs.setBool("remember_me", _isChecked);
+      prefs.setBool("remember_me", _isRememberMe);
       prefs.setString('email', emailController.text);
       prefs.setString('password', passwordController.text);
     },);
     setState(() {
-      _isChecked = value;
+      _isRememberMe = value;
     });
   }
 
@@ -232,14 +262,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (rememberMe == true) {
         setState(() {
-          _isChecked = true;
+          _isRememberMe = true;
         });
         emailController.text = loginEmailID;
         passwordController.text = loginPassword;
       }
       else{
         setState(() {
-          _isChecked = false;
+          _isRememberMe = false;
         });
         emailController.text = '';
         loginEmailID = '';
