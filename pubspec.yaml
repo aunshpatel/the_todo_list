@@ -42,6 +42,7 @@ dependencies:
   shared_preferences: ^2.0.20
   empty_widget: ^0.0.5
   keyboard_actions: ^4.1.0
+  onboarding: ^3.1.0
 
 dev_dependencies:
   flutter_test:

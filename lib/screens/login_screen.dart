@@ -25,7 +25,18 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     _loadUserEmailPassword();
+    appCount();
     super.initState();
+  }
+
+  appCount(){
+    setState(() {
+      loginCount++;
+    });
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setInt('loginCount', loginCount);
+    },);
+    print("loginCount-loginScreen:$loginCount");
   }
 
   @override
@@ -152,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text(
                           'Remember Me',
                           style: TextStyle(
-                              color: kBlackColor,
+                              color: kThemeBlueColor,
                               fontSize: 16
                           ),
                         )
@@ -177,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text(
                           'Auto Login',
                           style: TextStyle(
-                            color: kBlackColor,
+                            color: kThemeBlueColor,
                             fontSize: 16
                           ),
                         )

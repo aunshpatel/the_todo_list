@@ -6,6 +6,8 @@ final auth = FirebaseAuth.instance;
 
 int tasksLength = 0;
 
+int loginCount = 0;
+
 const kLightThemeColor = Colors.lightBlueAccent;
 
 const kWhiteColor = Colors.white;
@@ -34,6 +36,9 @@ const kTextStyle = TextStyle(
   fontSize: 20,
   color: kThemeBlueColor,
 );
+
+const onboardScreenHeaderStyle = TextStyle(color: kThemeBlueColor, fontWeight: FontWeight.bold, fontSize: 40);
+const onboardScreenTextStyle = TextStyle(color: kThemeBlueColor, fontWeight: FontWeight.bold, fontSize: 27);
 
 var kDisabledInputFieldDecoration = const BoxDecoration(
   border: Border(

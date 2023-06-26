@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_todo_list/consts.dart';
 import 'package:the_todo_list/screens/login_screen.dart';
 import 'package:the_todo_list/screens/profile_page.dart';
 import 'package:the_todo_list/screens/registration_screen.dart';
 import 'package:the_todo_list/screens/tasks_screen.dart';
 import 'firebase_options.dart';
+import 'onboarding/onboarding_screen.dart';
 
 void main() async{
   runApp(const MyApp());
@@ -23,6 +25,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with TickerProviderStateMixin{
   late AnimationController animationController;
+  bool isFirstTimeOpeningApp = false;
+  late int loginNumber;
   @override
   void dispose() {
     // TODO: implement dispose
@@ -34,6 +38,13 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin{
     super.initState();
     animationController = AnimationController(duration: new Duration(seconds: 2), vsync: this);
     animationController.repeat();
+    appCount();
+  }
+
+  appCount() async{
+    prefs = await SharedPreferences.getInstance();
+    loginNumber = prefs.getInt('loginCount') ?? 0;
+    print("loginNumber:$loginNumber");
   }
 
   @override
@@ -46,12 +57,14 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin{
           }
           if(snapshot.connectionState == ConnectionState.done){
             return MaterialApp(
-              initialRoute: '/login_screen',
+              initialRoute: (loginNumber == 0) ? '/onboarding_screen' : '/login_screen',
+              //initialRoute: '/login_screen',
               routes: {
                 '/login_screen' : (context) => LoginScreen(),
                 '/task_screen' : (context) => TasksScreen(),
                 '/registration_screen':(context) => RegistrationScreen(),
                 '/profile_page':(context) => ProfilePage(),
+                '/onboarding_screen': (context) => OnboardingScreen(),
               },
             );
           }
