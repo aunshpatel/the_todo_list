@@ -114,7 +114,7 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
                   );
                 }
                 else{
-                  return  Center(
+                  return Center(
                     child:Container(
                       height: MediaQuery.of(context).size.height-300,
                       width: MediaQuery.of(context).size.width,
