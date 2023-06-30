@@ -114,7 +114,32 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
                   );
                 }
                 else{
-                  return Container();
+                  return  Center(
+                    child:Container(
+                      height: MediaQuery.of(context).size.height-300,
+                      width: MediaQuery.of(context).size.width,
+                      //alignment: Alignment.center,
+                      child: EmptyWidget(
+                        // Image from project assets
+                        image: "assets/images/im_emptyIcon_1.png",
+                        packageImage: PackageImage.Image_1,
+                        title: 'You Have No Tasks',
+                        //subTitle: 'No  notification available yet',
+                        titleTextStyle: TextStyle(
+                          fontSize: 22,
+                          color: kThemeBlueColor,
+                          //color: Color(0xff9da9c7),
+                          fontWeight: FontWeight.w500,
+                        ),
+                        subtitleTextStyle: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xffabb8d6),
+                        ),
+                        // Uncomment below statement to hide background animation
+                        // hideBackgroundAnimation: true,
+                      ),
+                    ),
+                  );
                 }
               },
             ),
