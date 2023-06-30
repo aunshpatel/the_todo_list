@@ -119,7 +119,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'Once you task is complete, press on the checkbox to update its status.',
+                  'Once your task is complete, press on the checkbox to update its status.',
                   style: onboardScreenTextStyle,
                   textAlign: TextAlign.center,
                 ),
