@@ -47,7 +47,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   alignment: Alignment.topCenter,
                   child: SizedBox(
                     //padding: EdgeInsets.all(10.0),
-                    height: 500.0,
+                    height: 400.0,
                     child: Image.asset('images/todo-list-blue-transparent-bg.png',),
                   ),
                 ),
@@ -74,7 +74,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             children: [
               SizedBox(
                 //padding: EdgeInsets.all(10.0),
-                height: 500.0,
+                height: 350.0,
                 child: Image.asset('images/add-new-task.jpeg',),
               ),
               const SizedBox(height: 10,),
@@ -112,7 +112,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             children: [
               SizedBox(
                 //padding: EdgeInsets.all(10.0),
-                height: 450.0,
+                height: 350.0,
                 child: Image.asset('images/task-done.jpeg',),
               ),
               const SizedBox(height: 10,),
@@ -146,7 +146,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             children: [
               SizedBox(
                 //padding: EdgeInsets.all(10.0),
-                height: 500.0,
+                height: 350.0,
                 child: Image.asset('images/delete-task.jpeg',),
               ),
               SizedBox(height: 10,),
