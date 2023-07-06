@@ -55,121 +55,273 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
 
         if (snapshot.hasData) {
           final docs = snapshot.data!.docs;
+          late var d1;
+          for(int i=0;i<docs.length;i++){
 
-          return docs.length !=0 ? Container(
-            padding: const EdgeInsets.only(top: 10.0),
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: ListView.builder(
-              itemCount: docs.length,
-              itemBuilder: (_, i) {
-                final data = docs[i].data();
-                isChecked = data['isTaskComplete'];
-                if(data['user'].toString() == currentUser.toString()){
-                  return Container(
-                    /*decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: darkTheme == false ? kWhiteColor : kBlackColor,
-                    ),
-                  ),
-                ),*/
-                    //padding: const EdgeInsets.only(top: 5.0),
-                    child: ListTile(
-                      /*onLongPress: () async{
-                        _showMyDialog('Do you want to delete this task?', docs[i].id);
-                      },*/
-                      title: SizedBox(
-                        width: MediaQuery.of(context).size.width-100,
-                        child: Text(
-                          data['task'],
-                          style: TextStyle(decoration: isChecked == true? TextDecoration.lineThrough : null, color: kThemeBlueColor),
-                          //style: kTextStyle,
-                        ),
-                      ),
-                      trailing: SizedBox(
-                        width: 72,
-                        child: Row(
-                          children: [
-                            Checkbox(
-                              value: isChecked,
-                              activeColor: kThemeBlueColor,
-                              onChanged: (bool? value){
-                                setState(() {
-                                  isChecked = value!;
-                                  FirebaseFirestore.instance.collection('taskData').doc(docs[i].id).update({'isTaskComplete': isChecked});
-                                });
-                              },
-                            ),
-                            GestureDetector(
-                              onTap: (){
-                                _showMyDialog('Do you want to delete this task?', docs[i].id);
-                              },
-                              child: Icon(Icons.delete),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }
-                else{
-                  return Center(
-                    child:Container(
-                      height: MediaQuery.of(context).size.height-300,
-                      width: MediaQuery.of(context).size.width,
-                      //alignment: Alignment.center,
-                      child: EmptyWidget(
-                        // Image from project assets
-                        image: "assets/images/im_emptyIcon_1.png",
-                        packageImage: PackageImage.Image_1,
-                        title: 'You Have No Tasks',
-                        //subTitle: 'No  notification available yet',
-                        titleTextStyle: TextStyle(
-                          fontSize: 22,
-                          color: kThemeBlueColor,
-                          //color: Color(0xff9da9c7),
-                          fontWeight: FontWeight.w500,
-                        ),
-                        subtitleTextStyle: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xffabb8d6),
-                        ),
-                        // Uncomment below statement to hide background animation
-                        // hideBackgroundAnimation: true,
-                      ),
-                    ),
-                  );
-                }
-              },
-            ),
-          )  :
-          Center(
-            child:Container(
-              height: MediaQuery.of(context).size.height-300,
+
+            return docs.length !=0 ?
+            Container(
+              padding: const EdgeInsets.only(top: 10.0),
+              height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              //alignment: Alignment.center,
-              child: EmptyWidget(
-                // Image from project assets
-                image: "assets/images/im_emptyIcon_1.png",
-                packageImage: PackageImage.Image_1,
-                title: 'You Have No Tasks',
-                //subTitle: 'No  notification available yet',
-                titleTextStyle: TextStyle(
-                  fontSize: 22,
-                  color: kThemeBlueColor,
-                  //color: Color(0xff9da9c7),
-                  fontWeight: FontWeight.w500,
-                ),
-                subtitleTextStyle: TextStyle(
-                  fontSize: 14,
-                  color: Color(0xffabb8d6),
-                ),
-                // Uncomment below statement to hide background animation
-                // hideBackgroundAnimation: true,
+              child: ListView.builder(
+                itemCount: docs.length,
+                itemBuilder: (_, i) {
+                  final data = docs[i].data();
+                  isChecked = data['isTaskComplete'];
+                //   return Container(
+                //     /*decoration: BoxDecoration(
+                //   border: Border(
+                //     bottom: BorderSide(
+                //       color: darkTheme == false ? kWhiteColor : kBlackColor,
+                //     ),
+                //   ),
+                // ),*/
+                //     //padding: const EdgeInsets.only(top: 5.0),
+                //     child: ListTile(
+                //       title: SizedBox(
+                //         width: MediaQuery.of(context).size.width-100,
+                //         child: Text(
+                //           data['task'],
+                //           style: TextStyle(decoration: isChecked == true? TextDecoration.lineThrough : null, color: kThemeBlueColor),
+                //           //style: kTextStyle,
+                //         ),
+                //       ),
+                //       trailing: SizedBox(
+                //         width: 72,
+                //         child: Row(
+                //           children: [
+                //             Checkbox(
+                //               value: isChecked,
+                //               activeColor: kThemeBlueColor,
+                //               onChanged: (bool? value){
+                //                 setState(() {
+                //                   isChecked = value!;
+                //                   FirebaseFirestore.instance.collection('taskData').doc(docs[i].id).update({'isTaskComplete': isChecked});
+                //                 });
+                //               },
+                //             ),
+                //             GestureDetector(
+                //               onTap: (){
+                //                 _showMyDialog('Do you want to delete this task?', docs[i].id);
+                //               },
+                //               child: Icon(Icons.delete),
+                //             )
+                //           ],
+                //         ),
+                //       ),
+                //     ),
+                //   );
+                  if(data['user'].toString() == currentUser.toString()){
+                    return Container(
+                      child: ListTile(
+                        title: SizedBox(
+                          width: MediaQuery.of(context).size.width-100,
+                          child: Text(
+                            data['task'],
+                            style: TextStyle(decoration: isChecked == true? TextDecoration.lineThrough : null, color: kThemeBlueColor),
+                            //style: kTextStyle,
+                          ),
+                        ),
+                        trailing: SizedBox(
+                          width: 72,
+                          child: Row(
+                            children: [
+                              Checkbox(
+                                value: isChecked,
+                                activeColor: kThemeBlueColor,
+                                onChanged: (bool? value){
+                                  setState(() {
+                                    isChecked = value!;
+                                    FirebaseFirestore.instance.collection('taskData').doc(docs[i].id).update({'isTaskComplete': isChecked});
+                                  });
+                                },
+                              ),
+                              GestureDetector(
+                                onTap: (){
+                                  _showMyDialog('Do you want to delete this task?', docs[i].id);
+                                },
+                                child: Icon(Icons.delete),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  // else{
+                  //   return Center(
+                  //     child:Container(
+                  //       height: MediaQuery.of(context).size.height-300,
+                  //       width: MediaQuery.of(context).size.width,
+                  //       //alignment: Alignment.center,
+                  //       child: EmptyWidget(
+                  //         // Image from project assets
+                  //         image: "assets/images/im_emptyIcon_1.png",
+                  //         packageImage: PackageImage.Image_1,
+                  //         title: 'You Have No Tasks',
+                  //         //subTitle: 'No  notification available yet',
+                  //         titleTextStyle: TextStyle(
+                  //           fontSize: 22,
+                  //           color: kThemeBlueColor,
+                  //           //color: Color(0xff9da9c7),
+                  //           fontWeight: FontWeight.w500,
+                  //         ),
+                  //         subtitleTextStyle: TextStyle(
+                  //           fontSize: 14,
+                  //           color: Color(0xffabb8d6),
+                  //         ),
+                  //         // Uncomment below statement to hide background animation
+                  //         // hideBackgroundAnimation: true,
+                  //       ),
+                  //     ),
+                  //   );
+                  // }
+                },
               ),
-            ),
-          );
+            )  :
+            Center(
+              child:Container(
+                height: MediaQuery.of(context).size.height-300,
+                width: MediaQuery.of(context).size.width,
+                //alignment: Alignment.center,
+                child: EmptyWidget(
+                  // Image from project assets
+                  image: "assets/images/im_emptyIcon_1.png",
+                  packageImage: PackageImage.Image_1,
+                  title: 'You Have No Tasks',
+                  //subTitle: 'No  notification available yet',
+                  titleTextStyle: TextStyle(
+                    fontSize: 22,
+                    color: kThemeBlueColor,
+                    //color: Color(0xff9da9c7),
+                    fontWeight: FontWeight.w500,
+                  ),
+                  subtitleTextStyle: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xffabb8d6),
+                  ),
+                  // Uncomment below statement to hide background animation
+                  // hideBackgroundAnimation: true,
+                ),
+              ),
+            );
+          }
+          print('docs: ${docs.length}');
+          // return docs.length !=0 ? Container(
+          //   padding: const EdgeInsets.only(top: 10.0),
+          //   height: MediaQuery.of(context).size.height,
+          //   width: MediaQuery.of(context).size.width,
+          //   child: ListView.builder(
+          //     itemCount: docs.length,
+          //     itemBuilder: (_, i) {
+          //       final data = docs[i].data();
+          //       isChecked = data['isTaskComplete'];
+          //       if(data['user'].toString() == currentUser.toString()){
+          //         return Container(
+          //           /*decoration: BoxDecoration(
+          //         border: Border(
+          //           bottom: BorderSide(
+          //             color: darkTheme == false ? kWhiteColor : kBlackColor,
+          //           ),
+          //         ),
+          //       ),*/
+          //           //padding: const EdgeInsets.only(top: 5.0),
+          //           child: ListTile(
+          //             /*onLongPress: () async{
+          //               _showMyDialog('Do you want to delete this task?', docs[i].id);
+          //             },*/
+          //             title: SizedBox(
+          //               width: MediaQuery.of(context).size.width-100,
+          //               child: Text(
+          //                 data['task'],
+          //                 style: TextStyle(decoration: isChecked == true? TextDecoration.lineThrough : null, color: kThemeBlueColor),
+          //                 //style: kTextStyle,
+          //               ),
+          //             ),
+          //             trailing: SizedBox(
+          //               width: 72,
+          //               child: Row(
+          //                 children: [
+          //                   Checkbox(
+          //                     value: isChecked,
+          //                     activeColor: kThemeBlueColor,
+          //                     onChanged: (bool? value){
+          //                       setState(() {
+          //                         isChecked = value!;
+          //                         FirebaseFirestore.instance.collection('taskData').doc(docs[i].id).update({'isTaskComplete': isChecked});
+          //                       });
+          //                     },
+          //                   ),
+          //                   GestureDetector(
+          //                     onTap: (){
+          //                       _showMyDialog('Do you want to delete this task?', docs[i].id);
+          //                     },
+          //                     child: Icon(Icons.delete),
+          //                   )
+          //                 ],
+          //               ),
+          //             ),
+          //           ),
+          //         );
+          //       }
+          //       else{
+          //         return Center(
+          //           child:Container(
+          //             height: MediaQuery.of(context).size.height-300,
+          //             width: MediaQuery.of(context).size.width,
+          //             //alignment: Alignment.center,
+          //             child: EmptyWidget(
+          //               // Image from project assets
+          //               image: "assets/images/im_emptyIcon_1.png",
+          //               packageImage: PackageImage.Image_1,
+          //               title: 'You Have No Tasks',
+          //               //subTitle: 'No  notification available yet',
+          //               titleTextStyle: TextStyle(
+          //                 fontSize: 22,
+          //                 color: kThemeBlueColor,
+          //                 //color: Color(0xff9da9c7),
+          //                 fontWeight: FontWeight.w500,
+          //               ),
+          //               subtitleTextStyle: TextStyle(
+          //                 fontSize: 14,
+          //                 color: Color(0xffabb8d6),
+          //               ),
+          //               // Uncomment below statement to hide background animation
+          //               // hideBackgroundAnimation: true,
+          //             ),
+          //           ),
+          //         );
+          //       }
+          //     },
+          //   ),
+          // )  :
+          // Center(
+          //   child:Container(
+          //     height: MediaQuery.of(context).size.height-300,
+          //     width: MediaQuery.of(context).size.width,
+          //     //alignment: Alignment.center,
+          //     child: EmptyWidget(
+          //       // Image from project assets
+          //       image: "assets/images/im_emptyIcon_1.png",
+          //       packageImage: PackageImage.Image_1,
+          //       title: 'You Have No Tasks',
+          //       //subTitle: 'No  notification available yet',
+          //       titleTextStyle: TextStyle(
+          //         fontSize: 22,
+          //         color: kThemeBlueColor,
+          //         //color: Color(0xff9da9c7),
+          //         fontWeight: FontWeight.w500,
+          //       ),
+          //       subtitleTextStyle: TextStyle(
+          //         fontSize: 14,
+          //         color: Color(0xffabb8d6),
+          //       ),
+          //       // Uncomment below statement to hide background animation
+          //       // hideBackgroundAnimation: true,
+          //     ),
+          //   ),
+          // );
         }
 
         //return Center(child: CircularProgressIndicator());
