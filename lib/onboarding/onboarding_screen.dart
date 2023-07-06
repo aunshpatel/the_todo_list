@@ -287,12 +287,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           netDragPercent: dragDistance,
                           pagesLength: pagesLength,
                           indicator: Indicator(
-                            indicatorDesign: IndicatorDesign.line(
-                              lineDesign: LineDesign(
-                                lineType: DesignType.line_uniform,
-                              ),
-                            ),
+                            indicatorDesign: IndicatorDesign.polygon(
+                                polygonDesign: PolygonDesign(
+                                  polygon: DesignType.polygon_circle
+                                )
+                            )
                           ),
+                          // indicator: Indicator(
+                          //   indicatorDesign: IndicatorDesign.line(
+                          //     lineDesign: LineDesign(
+                          //       lineType: DesignType.line_uniform,
+                          //     ),
+                          //   ),
+                          // ),
                         ),
                         index == pagesLength - 1 ? goToLoginButton : _skipButton(setIndex: setIndex)
                       ],
