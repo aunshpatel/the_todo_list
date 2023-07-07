@@ -20,15 +20,18 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     animationController.dispose();
+    super.dispose();
   }
   @override
   void initState() {
     super.initState();
     animationController = AnimationController(duration: new Duration(seconds: 2), vsync: this);
     animationController.repeat();
+
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +50,16 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
         },
       ),
     );*/
-
+    
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-      stream: FirebaseFirestore.instance.collection('taskData').snapshots(),
+      stream: FirebaseFirestore.instance.collection('taskData').where("user", isEqualTo: currentUser.toString()).snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError) return Text('Error = ${snapshot.error}');
 
         if (snapshot.hasData) {
           final docs = snapshot.data!.docs;
-
-          return docs.length !=0 ? Container(
+          return docs.isNotEmpty ?
+          Container(
             padding: const EdgeInsets.only(top: 10.0),
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -66,14 +69,15 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
                 final data = docs[i].data();
                 isChecked = data['isTaskComplete'];
                 if(data['user'].toString() == currentUser.toString()){
+
                   return Container(
                     /*decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: darkTheme == false ? kWhiteColor : kBlackColor,
-                    ),
-                  ),
-                ),*/
+                      border: Border(
+                        bottom: BorderSide(
+                          color: darkTheme == false ? kWhiteColor : kBlackColor,
+                        ),
+                      ),
+                    ),*/
                     //padding: const EdgeInsets.only(top: 5.0),
                     child: ListTile(
                       /*onLongPress: () async{
@@ -113,7 +117,39 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
                     ),
                   );
                 }
-                else{
+
+
+                // isTaskAvailable == false ? Center(
+                //   child:Container(
+                //     height: MediaQuery.of(context).size.height-300,
+                //     width: MediaQuery.of(context).size.width,
+                //     //alignment: Alignment.center,
+                //     child: EmptyWidget(
+                //       // Image from project assets
+                //       image: "assets/images/im_emptyIcon_1.png",
+                //       packageImage: PackageImage.Image_1,
+                //       title: 'You Have No Tasks',
+                //       //subTitle: 'No  notification available yet',
+                //       titleTextStyle: TextStyle(
+                //         fontSize: 22,
+                //         color: kThemeBlueColor,
+                //         //color: Color(0xff9da9c7),
+                //         fontWeight: FontWeight.w500,
+                //       ),
+                //       subtitleTextStyle: TextStyle(
+                //         fontSize: 14,
+                //         color: Color(0xffabb8d6),
+                //       ),
+                //       // Uncomment below statement to hide background animation
+                //       // hideBackgroundAnimation: true,
+                //     ),
+                //   ),
+                // ) : Container();
+
+                // else{
+                //   return Container();
+                // }
+                /*else{
                   return Center(
                     child:Container(
                       height: MediaQuery.of(context).size.height-300,
@@ -140,7 +176,8 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
                       ),
                     ),
                   );
-                }
+                }*/
+
               },
             ),
           )  :
