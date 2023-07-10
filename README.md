@@ -4,13 +4,17 @@ A todo list project created to ease the task writing and managing work
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1) Login Screen:
+   ![Game Starts](/images/login-screen.jpg/?raw=true)
 
-A few resources to get you started if this is your first Flutter project:
+2) Registration Screen:
+   ![Correct Guess](/images/registration-screen.jpg/?raw=true)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+3) Task Screen(empty):
+   ![Wrong Guess](/images/empty-taskscreen.jpg/?raw=true)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+4) Task Screen(with task):
+   ![Wrong Guess](/images/task-screen-with-data.jpg/?raw=true)
+
+5) My Profile:
+   ![Game Lost](/images/myprofile.png/?raw=true)
