@@ -17,4 +17,4 @@ A todo list project created to ease the task writing and managing work
    ![Wrong Guess](/images/task-screen-with-data.jpg/?raw=true)
 
 5) My Profile:
-   ![Game Lost](/images/myprofile.png/?raw=true)
+   ![Game Lost](/images/myprofile.jpg/?raw=true)
