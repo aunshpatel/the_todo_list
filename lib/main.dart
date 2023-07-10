@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin{
         future:Firebase.initializeApp(),
         builder: (context, snapshot){
           if(snapshot.hasError){
-            return SomethingWentWrong();
+            return somethingWentWrong();
           }
           if(snapshot.connectionState == ConnectionState.done){
             return MaterialApp(
@@ -99,7 +99,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin{
 //         future:Firebase.initializeApp(),
 //         builder: (context, snapshot){
 //           if(snapshot.hasError){
-//             return SomethingWentWrong();
+//             return somethingWentWrong();
 //           }
 //           if(snapshot.connectionState == ConnectionState.done){
 //             return MaterialApp(
@@ -137,4 +137,15 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin{
 //     );
 //   }*/
 // }
-SomethingWentWrong(){}
+somethingWentWrong(){
+  return const AlertDialog(
+    title: Text('Warning!'),
+    content: SingleChildScrollView(
+      child: ListBody(
+        children: <Widget>[
+          Text('Something Went Wrong!'),
+        ],
+      ),
+    ),
+  );
+}
