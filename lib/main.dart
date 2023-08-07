@@ -29,7 +29,6 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin{
   late int loginNumber;
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     animationController.dispose();
   }
@@ -44,21 +43,19 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin{
   appCount() async{
     prefs = await SharedPreferences.getInstance();
     loginNumber = prefs.getInt('loginCount') ?? 0;
-    print("loginNumber:$loginNumber");
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future:Firebase.initializeApp(),
-        builder: (context, snapshot){
+      future:Firebase.initializeApp(),
+      builder: (context, snapshot){
           if(snapshot.hasError){
             return somethingWentWrong();
           }
           if(snapshot.connectionState == ConnectionState.done){
             return MaterialApp(
               initialRoute: (loginNumber == 0) ? '/onboarding_screen' : '/login_screen',
-              //initialRoute: '/login_screen',
               routes: {
                 '/login_screen' : (context) => LoginScreen(),
                 '/task_screen' : (context) => TasksScreen(),
@@ -74,12 +71,10 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin{
             color: Colors.white,
             child: Center(
               child: CircularProgressIndicator(
-                //valueColor: AlwaysStoppedAnimation<Color>(kThemeBlueColor),
                   backgroundColor: kThemeBlueColor,
                   strokeWidth: 4.0,
                   color: Colors.white,
-                  valueColor: animationController
-                      .drive(ColorTween(begin: Colors.blueAccent, end: kThemeBlueColor)),
+                  valueColor: animationController.drive(ColorTween(begin: Colors.blueAccent, end: kThemeBlueColor)),
                 //backgroundColor: Colors.white,
               ),
             ),
@@ -89,54 +84,6 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin{
   }
 }
 
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({Key? key}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return FutureBuilder(
-//         future:Firebase.initializeApp(),
-//         builder: (context, snapshot){
-//           if(snapshot.hasError){
-//             return somethingWentWrong();
-//           }
-//           if(snapshot.connectionState == ConnectionState.done){
-//             return MaterialApp(
-//               initialRoute: '/login_screen',
-//               routes: {
-//                 '/login_screen' : (context) => LoginScreen(),
-//                 '/task_screen' : (context) => TasksScreen(),
-//                 '/registration_screen':(context) => RegistrationScreen(),
-//                 '/profile_page':(context) => ProfilePage(),
-//               },
-//             );
-//           }
-//           return Container(
-//             height: MediaQuery.of(context).size.height,
-//             width: MediaQuery.of(context).size.height,
-//             color: Colors.white,
-//             child: Center(
-//               child: CircularProgressIndicator(
-//                 //valueColor: AlwaysStoppedAnimation<Color>(kThemeBlueColor),
-//                 backgroundColor: kThemeBlueColor,
-//                 strokeWidth: 4.0,
-//                 color: Colors.white,
-//                 valueColor: animationController
-//                     .drive(ColorTween(begin: Colors.blueAccent, end: Colors.red)),,
-//                 //backgroundColor: Colors.white,
-//               ),
-//             ),
-//           );
-//         }
-//     );
-//   }
-//   /*Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home:TasksScreen(),
-//     );
-//   }*/
-// }
 somethingWentWrong(){
   return const AlertDialog(
     title: Text('Warning!'),

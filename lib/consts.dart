@@ -73,7 +73,6 @@ class HeroLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Hero(
-
       tag:tag,
       child: Container(
         height: height,

@@ -20,8 +20,6 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  //late SharedPreferences prefs;
-
   @override
   void initState() {
     _loadUserEmailPassword();
@@ -36,30 +34,13 @@ class _LoginScreenState extends State<LoginScreen> {
     SharedPreferences.getInstance().then((prefs) {
       prefs.setInt('loginCount', loginCount);
     },);
-    print("loginCount-loginScreen:$loginCount");
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
+      child: Scaffold(
           backgroundColor: kWhiteColor,
-          /*appBar: AppBar(
-            leading: Builder(
-              builder: (BuildContext context) {
-                return IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/task_screen');
-                  },
-                  tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-                );
-              },
-            ),
-            elevation: 0,
-            centerTitle: true,
-            backgroundColor: kWhiteColor,
-          ),*/
           body:Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
@@ -98,13 +79,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   style: const TextStyle(color: kThemeBlueColor),
                   decoration: passwordInputDecoration(
-                      'Enter your password',
-                      _passwordVisible,
-                          (){
-                        setState(() {
-                          _passwordVisible = !_passwordVisible;
-                        });
-                      }
+                    'Enter your password',
+                    _passwordVisible,
+                        (){
+                      setState(() {
+                        _passwordVisible = !_passwordVisible;
+                      });
+                    }
                   ),
                 ),
                 const SizedBox(
@@ -116,8 +97,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     Text(
                       'New User?',
                       style: TextStyle(
-                          color: kThemeBlueColor,
-                          fontSize: 16
+                        color: kThemeBlueColor,
+                        fontSize: 16
                       ),
                     ),
                     SizedBox(
@@ -149,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Checkbox(
                           checkColor: kThemeBlueColor,
                           side: MaterialStateBorderSide.resolveWith(
-                                (states) => const BorderSide(width: 1.0, color: kThemeBlueColor),
+                            (states) => const BorderSide(width: 1.0, color: kThemeBlueColor),
                           ),
                           fillColor: MaterialStateProperty.all(Colors.transparent),
                           value: _isRememberMe,
@@ -174,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Checkbox(
                           checkColor: kThemeBlueColor,
                           side: MaterialStateBorderSide.resolveWith(
-                                (states) => const BorderSide(width: 1.0, color: kThemeBlueColor),
+                            (states) => const BorderSide(width: 1.0, color: kThemeBlueColor),
                           ),
                           fillColor: MaterialStateProperty.all(Colors.transparent),
                           value: automaticLogin,
@@ -219,7 +200,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               SharedPreferences.getInstance().then((prefs) {
                                 prefs.setBool('isLoggedIn', true);
                               },);
-                              //isLoggedIn = true;
                               currentUser = emailController.text;
                               showSpinner = false;
                             });
@@ -267,8 +247,6 @@ class _LoginScreenState extends State<LoginScreen> {
     _isRememberMe = value;
     SharedPreferences.getInstance().then((prefs) {
       prefs.setBool("remember_me", _isRememberMe);
-      // prefs.setString('email', emailController.text);
-      // prefs.setString('password', passwordController.text);
     },);
     setState(() {
       _isRememberMe = value;
@@ -308,7 +286,6 @@ class _LoginScreenState extends State<LoginScreen> {
       automaticLogin = prefs.getBool('autoLogin') ?? false;
       isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
       isRememberMeDisabled = prefs.getBool('isRememberMeDisabled') ?? false;
-      print("_loadUserEmailPassword loginEmailID:$loginEmailID, loginPassword:$loginPassword, rememberMe:$rememberMe, automaticLogin:$automaticLogin,isLoggedIn:$isLoggedIn, isRememberMeDisabled:$isRememberMeDisabled");
       if (rememberMe == true) {
         setState(() {
           _isRememberMe = true;
@@ -327,7 +304,6 @@ class _LoginScreenState extends State<LoginScreen> {
       }
 
       if(automaticLogin == true && isLoggedIn == true){
-        //autoLogin(automaticLogin);
         final user = await auth.signInWithEmailAndPassword(email: loginEmailID, password: loginPassword);
         if(user != null){
           Navigator.pushNamed(context, '/task_screen');
@@ -348,12 +324,10 @@ class _LoginScreenState extends State<LoginScreen> {
           prefs.setBool('isLoggedIn', false);
         },);
       }
-
     } catch (e) {
       print(e);
     }
   }
-
 
   //Alert box
   Future<void> _showMyDialog(String text) async {

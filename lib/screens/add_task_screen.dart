@@ -25,7 +25,7 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
           focusNode: _nodeText1,
           toolbarButtons: [
             //button 2
-                (node) {
+            (node) {
               return GestureDetector(
                 onTap: () => node.unfocus(),
                 child: Container(
@@ -47,8 +47,8 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: const Color(0XFF757575),
-        child: Container(
+      color: const Color(0XFF757575),
+      child: Container(
           padding: const EdgeInsets.all(20.0),
           decoration: const BoxDecoration(
             color:kWhiteColor,
@@ -58,13 +58,13 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Text(
-                  'Add Task',
-                  textAlign: TextAlign.center,
-                  style:TextStyle(
-                    fontSize: 30,
-                    color: kThemeBlueColor,
-                    fontWeight: FontWeight.bold,
-                  )
+                'Add Task',
+                textAlign: TextAlign.center,
+                style:TextStyle(
+                  fontSize: 30,
+                  color: kThemeBlueColor,
+                  fontWeight: FontWeight.bold,
+                )
               ),
               TextField(
                 controller: addTaskController,
@@ -77,7 +77,6 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
                 onPressed: (){
                   if(addTaskController.text.isNotEmpty){
                     addTask.collection('taskData').add({'task':addTaskController.text, 'taskCreationDate':DateTime.now(),'isTaskComplete':false, 'user':currentUser});
-                    //addTask.collection(currentUser).add({'task':addTaskController.text, 'taskCreationDate':DateTime.now(),'isTaskComplete':false, 'user':currentUser});
                     Navigator.pop(context);
                   }
                   else{
@@ -121,85 +120,3 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
     );
   }
 }
-
-
-/*
-class AddTasksScreen extends StatelessWidget {
-  final addTask = FirebaseFirestore.instance;
-  TextEditingController addTaskController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: const Color(0XFF757575),
-      child: Container(
-        padding: const EdgeInsets.all(20.0),
-        decoration: const BoxDecoration(
-          color:kWhiteColor,
-          borderRadius: BorderRadius.only(topRight:Radius.circular(20.0),topLeft:Radius.circular(20.0),),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Text(
-              'Add Task',
-              textAlign: TextAlign.center,
-              style:TextStyle(
-                fontSize: 30,
-                color: kLightThemeColor,
-                fontWeight: FontWeight.bold,
-              )
-            ),
-            TextField(
-              controller: addTaskController,
-              autofocus: true,
-            ),
-            SizedBox(height:10.0),
-            ElevatedButton(
-              onPressed: (){
-                if(addTaskController.text.isNotEmpty){
-                  addTask.collection(currentUser).add({'task':addTaskController.text, 'taskCreationDate':DateTime.now(),'isTaskComplete':false});
-                  Navigator.pop(context);
-                }
-                else{
-                  _showMyDialog();
-                }
-              },
-              child: const Text('Add', style: TextStyle(color: kWhiteColor),),
-              style: ElevatedButton.styleFrom(backgroundColor: kLightThemeColor),
-            ),
-          ],
-        ),
-      )
-    );
-  }
-
-
-
-  Future _showMyDialog() {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Warning!'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('You have added no text. Please add text before pressing the add button'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Ok'),
-              onPressed: () {
-                Navigator.pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-}*/

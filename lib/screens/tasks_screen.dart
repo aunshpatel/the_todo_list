@@ -50,17 +50,6 @@ class TasksScreen extends StatelessWidget {
                   child:  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      /*GestureDetector(
-                    onTap:(){
-                      //Scaffold.of(context).openDrawer();
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: kWhiteColor,
-                      radius: 30.0,
-                      child: Icon(Icons.list, size: 30.0, color: kLightThemeColor,),
-                    ),
-                  ),
-                  SizedBox(height:10.0),*/
                       Text('Task List Screen', style: TextStyle(color:kWhiteColor, fontSize: 30.0, fontWeight: FontWeight.w700),),
                       //Text('${tasksLength.toString()} Tasks', style: TextStyle(color:kWhiteColor, fontSize: 18),),
                     ],

@@ -24,7 +24,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
+      child: Scaffold(
           appBar: AppBar(
             leading: Builder(
               builder: (BuildContext context) {
@@ -48,7 +48,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: SizedBox(
-              //height: MediaQuery.of(context).size.height - 150,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -120,89 +119,89 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     height: 24.0,
                   ),
                   RoundedButton(
-                      colour:kThemeBlueColor,
-                      title:'Register',
-                      onPress:() async{
-                        if(emailID != '' && pwd != ''){
-                          if(pwd.length < 6){
+                    colour:kThemeBlueColor,
+                    title:'Register',
+                    onPress:() async{
+                      if(emailID != '' && pwd != ''){
+                        if(pwd.length < 6){
+                          setState(() {
+                            showSpinner = false;
+                          });
+                          _showMyDialog('Please at least 6 characters for your password.');
+                        }
+                        else{
+                          if(confirmationPwd == pwd){
                             setState(() {
-                              showSpinner = false;
+                              showSpinner = true;
                             });
-                            _showMyDialog('Please at least 6 characters for your password.');
-                          }
-                          else{
-                            if(confirmationPwd == pwd){
-                              setState(() {
-                                showSpinner = true;
-                              });
-                              try{
-                                final user = await _auth.createUserWithEmailAndPassword(email: emailID, password: pwd);
-                                user.user?.updateDisplayName(fullName);
+                            try{
+                              final user = await _auth.createUserWithEmailAndPassword(email: emailID, password: pwd);
+                              user.user?.updateDisplayName(fullName);
+                              if(user != null){
+                                _registrationScreenFirestore.collection('registeredUsers').add({'fullName':fullName, 'emailID':emailID,});
+                                //final user = await _auth.signInWithEmailAndPassword(email: emailID, password: pwd);
                                 if(user != null){
-                                  _registrationScreenFirestore.collection('registeredUsers').add({'fullName':fullName, 'emailID':emailID,});
-                                  //final user = await _auth.signInWithEmailAndPassword(email: emailID, password: pwd);
-                                  if(user != null){
-                                    //Navigator.pushNamed(context, '/login_screen');
-                                    showDialog<void>(
-                                      context: context,
-                                      barrierDismissible: false,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: const Text('Success!'),
-                                          content: SingleChildScrollView(
-                                            child: ListBody(
-                                              children: <Widget>[
-                                                Text('User created successfully. You will now be redirected to login page.'),
-                                              ],
-                                            ),
+                                  //Navigator.pushNamed(context, '/login_screen');
+                                  showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text('Success!'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('User created successfully. You will now be redirected to login page.'),
+                                            ],
                                           ),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              child: const Text('OK'),
-                                              onPressed: () {
-                                                Navigator.pushNamed(context, '/login_screen');
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                    setState(() {
-                                      showSpinner = false;
-                                    });
-                                  }
-                                  else{
-                                    _showMyDialog('Incorrect email or password. Please enter your email and password again.');
-                                  }
+                                        ),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: const Text('OK'),
+                                            onPressed: () {
+                                              Navigator.pushNamed(context, '/login_screen');
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                  setState(() {
+                                    showSpinner = false;
+                                  });
                                 }
-                              } catch(e){
-                                setState(() {
-                                  showSpinner = false;
-                                });
-                                return _showMyDialog('${e.toString()}');
+                                else{
+                                  _showMyDialog('Incorrect email or password. Please enter your email and password again.');
+                                }
                               }
-                            }
-                            else {
-                              _showMyDialog('Your passwords are not same. Please check and enter again.');
+                            } catch(e){
+                              setState(() {
+                                showSpinner = false;
+                              });
+                              return _showMyDialog('${e.toString()}');
                             }
                           }
-                        }
-                        else if(pwd.isEmpty && emailID.isNotEmpty){
-                          _showMyDialog('No password entered. Please enter the your password.');
-                        }
-                        else if(pwd.isNotEmpty && emailID.isEmpty){
-                          _showMyDialog('No email id entered. Please enter your email id.');
-                        }
-                        else if(emailID.isEmpty && pwd.isEmpty){
-                          _showMyDialog('Email and password fields are empty. Please enter both values to login.');
-                        }
-                        else if(emailID == '' && pwd != ''){
-                          _showMyDialog('Please enter your email id to login.');
-                        }
-                        else if(emailID == '' && pwd != ''){
-                          _showMyDialog('Please enter your password to login.');
+                          else {
+                            _showMyDialog('Your passwords are not same. Please check and enter again.');
+                          }
                         }
                       }
+                      else if(pwd.isEmpty && emailID.isNotEmpty){
+                        _showMyDialog('No password entered. Please enter the your password.');
+                      }
+                      else if(pwd.isNotEmpty && emailID.isEmpty){
+                        _showMyDialog('No email id entered. Please enter your email id.');
+                      }
+                      else if(emailID.isEmpty && pwd.isEmpty){
+                        _showMyDialog('Email and password fields are empty. Please enter both values to login.');
+                      }
+                      else if(emailID == '' && pwd != ''){
+                        _showMyDialog('Please enter your email id to login.');
+                      }
+                      else if(emailID == '' && pwd != ''){
+                        _showMyDialog('Please enter your password to login.');
+                      }
+                    }
                   ),
                 ],
               ),

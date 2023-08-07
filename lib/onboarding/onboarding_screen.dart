@@ -24,7 +24,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
         ),
         child: Container(
-          padding: EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -42,7 +42,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
               //const SizedBox(height: 10,),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45.0),
+                padding: const EdgeInsets.symmetric(horizontal: 45.0),
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: SizedBox(
@@ -257,11 +257,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      //title: 'Flutter Demo',
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      //   visualDensity: VisualDensity.adaptivePlatformDensity,
-      // ),
       home: SafeArea(
         child: Scaffold(
           body: Onboarding(
@@ -288,18 +283,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           pagesLength: pagesLength,
                           indicator: Indicator(
                             indicatorDesign: IndicatorDesign.polygon(
-                                polygonDesign: PolygonDesign(
-                                  polygon: DesignType.polygon_circle
-                                )
+                              polygonDesign: PolygonDesign(
+                                polygon: DesignType.polygon_circle
+                              )
                             )
                           ),
-                          // indicator: Indicator(
-                          //   indicatorDesign: IndicatorDesign.line(
-                          //     lineDesign: LineDesign(
-                          //       lineType: DesignType.line_uniform,
-                          //     ),
-                          //   ),
-                          // ),
                         ),
                         index == pagesLength - 1 ? goToLoginButton : _skipButton(setIndex: setIndex)
                       ],
@@ -322,19 +310,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           netDragPercent: dragDistance,
                           pagesLength: pagesLength,
                           indicator: Indicator(
-                              indicatorDesign: IndicatorDesign.polygon(
-                                  polygonDesign: PolygonDesign(
-                                      polygon: DesignType.polygon_circle
-                                  )
+                            indicatorDesign: IndicatorDesign.polygon(
+                              polygonDesign: PolygonDesign(
+                                  polygon: DesignType.polygon_circle
                               )
+                            )
                           ),
-                          // indicator: Indicator(
-                          //   indicatorDesign: IndicatorDesign.line(
-                          //     lineDesign: LineDesign(
-                          //       lineType: DesignType.line_uniform,
-                          //     ),
-                          //   ),
-                          // ),
                         ),
                         returnToTaskScreen
                       ],

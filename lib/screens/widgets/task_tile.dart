@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../consts.dart';
 import 'package:empty_widget/empty_widget.dart';
-//final _firestore = FirebaseFirestore.instance;
 
 class TaskTile extends StatefulWidget {
   const TaskTile({super.key});
@@ -15,7 +14,6 @@ class TaskTile extends StatefulWidget {
 class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
 
   bool isChecked = false;
-  //String currentUser = 'patelaunsh28@gmail.com';
   late AnimationController animationController;
   @override
   void dispose() {
@@ -28,29 +26,10 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
     super.initState();
     animationController = AnimationController(duration: new Duration(seconds: 2), vsync: this);
     animationController.repeat();
-
   }
-
-
 
   @override
   Widget build(BuildContext context) {
-    /*return ListTile(
-      title: Text(
-        'This is a task',
-        style: TextStyle(decoration: isChecked == true? TextDecoration.lineThrough : null),
-      ),
-      trailing:Checkbox(
-        value: isChecked,
-        activeColor: kLightThemeColor,
-        onChanged: (bool? value){
-          setState(() {
-            isChecked = value!;
-          });
-        },
-      ),
-    );*/
-    
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: FirebaseFirestore.instance.collection('taskData').where("user", isEqualTo: currentUser.toString()).snapshots(),
       builder: (context, snapshot) {
@@ -71,24 +50,12 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
                 if(data['user'].toString() == currentUser.toString()){
 
                   return Container(
-                    /*decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: darkTheme == false ? kWhiteColor : kBlackColor,
-                        ),
-                      ),
-                    ),*/
-                    //padding: const EdgeInsets.only(top: 5.0),
                     child: ListTile(
-                      /*onLongPress: () async{
-                        _showMyDialog('Do you want to delete this task?', docs[i].id);
-                      },*/
                       title: SizedBox(
                         width: MediaQuery.of(context).size.width-100,
                         child: Text(
                           data['task'],
                           style: TextStyle(decoration: isChecked == true? TextDecoration.lineThrough : null, color: kThemeBlueColor),
-                          //style: kTextStyle,
                         ),
                       ),
                       trailing: SizedBox(
@@ -117,67 +84,6 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
                     ),
                   );
                 }
-
-
-                // isTaskAvailable == false ? Center(
-                //   child:Container(
-                //     height: MediaQuery.of(context).size.height-300,
-                //     width: MediaQuery.of(context).size.width,
-                //     //alignment: Alignment.center,
-                //     child: EmptyWidget(
-                //       // Image from project assets
-                //       image: "assets/images/im_emptyIcon_1.png",
-                //       packageImage: PackageImage.Image_1,
-                //       title: 'You Have No Tasks',
-                //       //subTitle: 'No  notification available yet',
-                //       titleTextStyle: TextStyle(
-                //         fontSize: 22,
-                //         color: kThemeBlueColor,
-                //         //color: Color(0xff9da9c7),
-                //         fontWeight: FontWeight.w500,
-                //       ),
-                //       subtitleTextStyle: TextStyle(
-                //         fontSize: 14,
-                //         color: Color(0xffabb8d6),
-                //       ),
-                //       // Uncomment below statement to hide background animation
-                //       // hideBackgroundAnimation: true,
-                //     ),
-                //   ),
-                // ) : Container();
-
-                // else{
-                //   return Container();
-                // }
-                /*else{
-                  return Center(
-                    child:Container(
-                      height: MediaQuery.of(context).size.height-300,
-                      width: MediaQuery.of(context).size.width,
-                      //alignment: Alignment.center,
-                      child: EmptyWidget(
-                        // Image from project assets
-                        image: "assets/images/im_emptyIcon_1.png",
-                        packageImage: PackageImage.Image_1,
-                        title: 'You Have No Tasks',
-                        //subTitle: 'No  notification available yet',
-                        titleTextStyle: TextStyle(
-                          fontSize: 22,
-                          color: kThemeBlueColor,
-                          //color: Color(0xff9da9c7),
-                          fontWeight: FontWeight.w500,
-                        ),
-                        subtitleTextStyle: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xffabb8d6),
-                        ),
-                        // Uncomment below statement to hide background animation
-                        // hideBackgroundAnimation: true,
-                      ),
-                    ),
-                  );
-                }*/
-
               },
             ),
           )  :
@@ -185,17 +91,13 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
             child:Container(
               height: MediaQuery.of(context).size.height-300,
               width: MediaQuery.of(context).size.width,
-              //alignment: Alignment.center,
               child: EmptyWidget(
-                // Image from project assets
                 image: "assets/images/im_emptyIcon_1.png",
                 packageImage: PackageImage.Image_1,
                 title: 'You Have No Tasks',
-                //subTitle: 'No  notification available yet',
                 titleTextStyle: TextStyle(
                   fontSize: 22,
                   color: kThemeBlueColor,
-                  //color: Color(0xff9da9c7),
                   fontWeight: FontWeight.w500,
                 ),
                 subtitleTextStyle: TextStyle(
@@ -209,20 +111,16 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
           );
         }
 
-        //return Center(child: CircularProgressIndicator());
-
         return Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.height,
           color: Colors.white,
           child: Center(
             child: CircularProgressIndicator(
-              //valueColor: AlwaysStoppedAnimation<Color>(kThemeBlueColor),
               backgroundColor: kThemeBlueColor,
               strokeWidth: 4.0,
               color: Colors.white,
-              valueColor: animationController
-                  .drive(ColorTween(begin: Colors.blueAccent, end: kThemeBlueColor)),
+              valueColor: animationController.drive(ColorTween(begin: Colors.blueAccent, end: kThemeBlueColor)),
               //backgroundColor: Colors.white,
             ),
           ),
@@ -232,14 +130,11 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
   }
 
   Future _showMyDialog(String text, String docID) async {
-    //String AlertText = text;
-    //String documentID = docID;
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          //title: const Text('Warning!'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
