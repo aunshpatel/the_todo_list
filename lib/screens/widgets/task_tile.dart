@@ -53,10 +53,24 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
                     child: ListTile(
                       title: SizedBox(
                         width: MediaQuery.of(context).size.width-100,
-                        child: Text(
-                          data['task'],
-                          style: TextStyle(decoration: isChecked == true? TextDecoration.lineThrough : null, color: kThemeBlueColor),
-                        ),
+                        child:Row(
+                          children: [
+                            SizedBox(
+                              width: 20.0,
+                              child: Text(
+                                '${(i+1).toString()}.',
+                                style: TextStyle(decoration: isChecked == true? TextDecoration.lineThrough : null, color: kThemeBlueColor, fontSize: 18.0),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 2.0,
+                            ),
+                            Text(
+                              data['task'],
+                              style: TextStyle(decoration: isChecked == true? TextDecoration.lineThrough : null, color: kThemeBlueColor, fontSize: 18.0),
+                            ),
+                          ],
+                        )
                       ),
                       trailing: SizedBox(
                         width: 72,
