@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_todo_list/consts.dart';
+import 'package:the_todo_list/screens/add_task_screen.dart';
 import 'package:the_todo_list/screens/login_screen.dart';
 import 'package:the_todo_list/screens/profile_page.dart';
 import 'package:the_todo_list/screens/registration_screen.dart';
@@ -62,6 +63,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin{
                 '/registration_screen':(context) => RegistrationScreen(),
                 '/profile_page':(context) => ProfilePage(),
                 '/onboarding_screen': (context) => OnboardingScreen(),
+                '/add_task_screen': (context) => AddTasksScreen(),
               },
             );
           }

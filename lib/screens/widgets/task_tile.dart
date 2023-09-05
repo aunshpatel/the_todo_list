@@ -77,7 +77,6 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
                               children: [
                                 SizedBox(
                                   width: 22.0,
-
                                 ),
                                 SizedBox(
                                   width:200.0,

@@ -3,6 +3,140 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import '../consts.dart';
 
+// class AddTasksScreen extends StatefulWidget {
+//   const AddTasksScreen({super.key});
+//
+//   @override
+//   State<AddTasksScreen> createState() => _AddTasksScreenState();
+// }
+
+// class _AddTasksScreenState extends State<AddTasksScreen> {
+//   final addTask = FirebaseFirestore.instance;
+//   TextEditingController addTaskTitleController = TextEditingController();
+//   TextEditingController addTaskDescrController = TextEditingController();
+//   final FocusNode _nodeText1 = FocusNode();
+//
+//   KeyboardActionsConfig _buildConfig(BuildContext context) {
+//     return KeyboardActionsConfig(
+//       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+//       keyboardBarColor: Colors.grey[200],
+//       nextFocus: true,
+//       actions: [
+//         KeyboardActionsItem(
+//           focusNode: _nodeText1,
+//           toolbarButtons: [
+//             //button 2
+//             (node) {
+//               return GestureDetector(
+//                 onTap: () => node.unfocus(),
+//                 child: Container(
+//                   color: Colors.black,
+//                   padding: EdgeInsets.all(8.0),
+//                   child: Text(
+//                     "DONE",
+//                     style: TextStyle(color: Colors.white),
+//                   ),
+//                 ),
+//               );
+//             }
+//           ],
+//         ),
+//       ],
+//     );
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       color: const Color(0XFF757575),
+//       child: Container(
+//           padding: const EdgeInsets.all(20.0),
+//           decoration: const BoxDecoration(
+//             color:kWhiteColor,
+//             borderRadius: BorderRadius.only(topRight:Radius.circular(20.0),topLeft:Radius.circular(20.0),),
+//           ),
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.stretch,
+//             children: [
+//               const Text(
+//                 'Add Task',
+//                 textAlign: TextAlign.center,
+//                 style:TextStyle(
+//                   fontSize: 30,
+//                   color: kThemeBlueColor,
+//                   fontWeight: FontWeight.bold,
+//                 )
+//               ),
+//               SizedBox(height:20.0),
+//               TextField(
+//                 controller: addTaskTitleController,
+//                 focusNode: _nodeText1,
+//                 autofocus: true,
+//                 cursorColor: kThemeBlueColor,
+//                 decoration: const InputDecoration(
+//                   hintText: 'Please enter a title for the task'
+//                 ),
+//               ),
+//               SizedBox(height:20.0),
+//               TextField(
+//                 maxLines: 10,
+//                 controller: addTaskDescrController,
+//                 // focusNode: _nodeText1,
+//                 cursorColor: kThemeBlueColor,
+//                 decoration: const InputDecoration(
+//                     hintText: 'Please enter description for the task'
+//                 ),
+//               ),
+//               SizedBox(height:20.0),
+//               ElevatedButton(
+//                 onPressed: (){
+//                   if(addTaskTitleController.text.isNotEmpty && addTaskDescrController.text.isEmpty){
+//                     addTask.collection('taskData').add({'task':addTaskTitleController.text,'description':addTaskDescrController.text, 'taskCreationDate':DateTime.now(),'isTaskComplete':false, 'user':currentUser});
+//                     // Navigator.pop(context);
+//                     Navigator.pushNamed(context, '/add_task_screen');
+//                   }
+//                   else{
+//                     _showMyDialog();
+//                   }
+//                 },
+//                 child: const Text('Add', style: TextStyle(color: kWhiteColor),),
+//                 style: ElevatedButton.styleFrom(backgroundColor: kThemeBlueColor),
+//               ),
+//             ],
+//           ),
+//         )
+//     );
+//   }
+//
+//
+//   Future _showMyDialog() {
+//     return showDialog<void>(
+//       context: context,
+//       barrierDismissible: false,
+//       builder: (BuildContext context) {
+//         return AlertDialog(
+//           title: const Text('Warning!', style: TextStyle(color: kThemeBlueColor)),
+//           content: SingleChildScrollView(
+//             child: ListBody(
+//               children: <Widget>[
+//                 Text('You have added no title and/or description. Please make sure to add both before pressing the add button.', style: TextStyle(color: kThemeBlueColor)),
+//               ],
+//             ),
+//           ),
+//           actions: <Widget>[
+//             TextButton(
+//               child: const Text('Ok'),
+//               onPressed: () {
+//                 Navigator.pop(context);
+//               },
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
+// }
+
 class AddTasksScreen extends StatefulWidget {
   const AddTasksScreen({super.key});
 
@@ -11,87 +145,127 @@ class AddTasksScreen extends StatefulWidget {
 }
 
 class _AddTasksScreenState extends State<AddTasksScreen> {
+  @override
   final addTask = FirebaseFirestore.instance;
-  TextEditingController addTaskController = TextEditingController();
+  TextEditingController addTaskTitleController = TextEditingController();
+  TextEditingController addTaskDescrController = TextEditingController();
   final FocusNode _nodeText1 = FocusNode();
 
   KeyboardActionsConfig _buildConfig(BuildContext context) {
-    return KeyboardActionsConfig(
-      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
-      keyboardBarColor: Colors.grey[200],
-      nextFocus: true,
-      actions: [
-        KeyboardActionsItem(
-          focusNode: _nodeText1,
-          toolbarButtons: [
-            //button 2
-            (node) {
-              return GestureDetector(
-                onTap: () => node.unfocus(),
-                child: Container(
-                  color: Colors.black,
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "DONE",
-                    style: TextStyle(color: Colors.white),
-                  ),
+  return KeyboardActionsConfig(
+    keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+    keyboardBarColor: Colors.grey[200],
+    nextFocus: true,
+    actions: [
+      KeyboardActionsItem(
+        focusNode: _nodeText1,
+        toolbarButtons: [
+          //button 2
+          (node) {
+            return GestureDetector(
+              onTap: () => node.unfocus(),
+              child: Container(
+                color: Colors.black,
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  "DONE",
+                  style: TextStyle(color: Colors.white),
                 ),
-              );
-            }
-          ],
-        ),
-      ],
-    );
-  }
+              ),
+            );
+          }
+        ],
+      ),
+    ],
+  );
+}
 
-  @override
   Widget build(BuildContext context) {
-    return Container(
-      color: const Color(0XFF757575),
-      child: Container(
-          padding: const EdgeInsets.all(20.0),
-          decoration: const BoxDecoration(
-            color:kWhiteColor,
-            borderRadius: BorderRadius.only(topRight:Radius.circular(20.0),topLeft:Radius.circular(20.0),),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Text(
-                'Add Task',
-                textAlign: TextAlign.center,
-                style:TextStyle(
-                  fontSize: 30,
-                  color: kThemeBlueColor,
-                  fontWeight: FontWeight.bold,
-                )
-              ),
-              TextField(
-                controller: addTaskController,
-                focusNode: _nodeText1,
-                autofocus: true,
-                cursorColor: kThemeBlueColor,
-              ),
-              SizedBox(height:10.0),
-              ElevatedButton(
-                onPressed: (){
-                  if(addTaskController.text.isNotEmpty){
-                    addTask.collection('taskData').add({'task':addTaskController.text, 'taskCreationDate':DateTime.now(),'isTaskComplete':false, 'user':currentUser});
-                    Navigator.pop(context);
-                  }
-                  else{
-                    _showMyDialog();
-                  }
-                },
-                child: const Text('Add', style: TextStyle(color: kWhiteColor),),
-                style: ElevatedButton.styleFrom(backgroundColor: kThemeBlueColor),
-              ),
+    return SafeArea(
+        child: Scaffold(
+          resizeToAvoidBottomInset: true,
+          backgroundColor: kWhiteColor,
+          endDrawerEnableOpenDragGesture: false,
+          // drawer: MyDrawer(),
+          appBar: AppBar(
+            leading: Builder(
+              builder: (BuildContext context) {
+                return IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/task_screen');
+                  },
+                  // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                );
+              },
+            ),
+            actions: <Widget>[
+
             ],
+            centerTitle: true,
+            title: const Text('Add Task'),
+            backgroundColor: kThemeBlueColor,
           ),
+          body: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(20.0),
+              decoration: const BoxDecoration(
+                color:kWhiteColor,
+                borderRadius: BorderRadius.only(topRight:Radius.circular(20.0),topLeft:Radius.circular(20.0),),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Text(
+                      'Add a New Task and Description Below',
+                      textAlign: TextAlign.center,
+                      style:TextStyle(
+                        fontSize: 24,
+                        color: kThemeBlueColor,
+                        fontWeight: FontWeight.bold,
+                      )
+                  ),
+                  const SizedBox(height:20.0),
+                  TextField(
+                    controller: addTaskTitleController,
+                    focusNode: _nodeText1,
+                    autofocus: true,
+                    cursorColor: kThemeBlueColor,
+                    decoration: const InputDecoration(
+                        hintText: 'Please enter a title for the task'
+                    ),
+                  ),
+                  const SizedBox(height:20.0),
+                  TextField(
+                    maxLines: 8,
+                    controller: addTaskDescrController,
+                    // focusNode: _nodeText1,
+                    cursorColor: kThemeBlueColor,
+                    decoration: const InputDecoration(
+                        hintText: 'Please enter description for the task'
+                    ),
+                  ),
+                  const SizedBox(height:20.0),
+                  ElevatedButton(
+                    onPressed: (){
+                      if(addTaskTitleController.text.isNotEmpty){
+                        addTask.collection('taskData').add({'task':addTaskTitleController.text,'description':addTaskDescrController.text, 'taskCreationDate':DateTime.now(),'isTaskComplete':false, 'user':currentUser});
+                        Navigator.pushNamed(context, '/task_screen');
+                      }
+                      else{
+                        _showMyDialog();
+                      }
+                    },
+                    child: const Text('Add', style: TextStyle(color: kWhiteColor),),
+                    style: ElevatedButton.styleFrom(backgroundColor: kThemeBlueColor),
+                  ),
+                ],
+              ),
+            ),
+          )
         )
     );
   }
-
 
   Future _showMyDialog() {
     return showDialog<void>(
@@ -103,7 +277,7 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('You have added no text. Please add text before pressing the add button.', style: TextStyle(color: kThemeBlueColor)),
+                Text('You have added no title. Please make sure to add at least the title before pressing the add button.', style: TextStyle(color: kThemeBlueColor)),
               ],
             ),
           ),
