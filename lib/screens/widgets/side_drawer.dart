@@ -92,7 +92,7 @@ class _MyDrawerState extends State<MyDrawer> {
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: kWhiteColor,
+                    color: kBlackColor,
                   )
                 )
               ),

@@ -25,6 +25,7 @@ class TasksScreen extends StatelessWidget {
                   leading: Builder(
                       builder: (BuildContext context){
                         return IconButton(
+                          color: kWhiteColor,
                           icon: const Icon(Icons.menu),
                           onPressed: () {
                             Scaffold.of(context).openDrawer();
@@ -36,6 +37,7 @@ class TasksScreen extends StatelessWidget {
                 ),
                 floatingActionButton: FloatingActionButton(
                   backgroundColor: kThemeBlueColor,
+                  foregroundColor: kWhiteColor,
                   onPressed: () {
                     Navigator.pushNamed(context, '/add_task_screen');
                     // showModalBottomSheet(
