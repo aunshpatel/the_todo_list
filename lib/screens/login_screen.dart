@@ -337,7 +337,7 @@ class _LoginScreenState extends State<LoginScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Warning!', style: TextStyle(color: kThemeBlueColor)),
+          title: const Text('Warning!', style: TextStyle(color: kThemeBlueColor, fontSize: 20.0)),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[

@@ -170,13 +170,13 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text(text, style: TextStyle(color: kThemeBlueColor)),
+                Text(text, style: TextStyle(color: kThemeBlueColor, fontSize: 20.0)),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Yes',style: TextStyle(color: kThemeBlueColor),),
+              child: const Text('Yes',style: TextStyle(color: kThemeBlueColor,fontSize: 18.0),),
               onPressed: () async{
                 FirebaseFirestore.instance.collection('taskData').doc(docID).delete();
                 Navigator.of(context).pop();
@@ -184,7 +184,7 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
               },
             ),
             TextButton(
-              child: const Text('No', style: TextStyle(color: kThemeBlueColor),),
+              child: const Text('No', style: TextStyle(color: kThemeBlueColor,fontSize: 18.0),),
               onPressed: () {
                 Navigator.of(context).pop();
               },

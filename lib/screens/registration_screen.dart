@@ -218,11 +218,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Warning!', style: TextStyle(color: kThemeBlueColor),),
+          title: const Text('Warning!', style: TextStyle(color: kThemeBlueColor, fontSize: 20.0),),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text(AlertText, style: TextStyle(color: kThemeBlueColor)),
+                Text(AlertText, style: TextStyle(color: kThemeBlueColor, fontSize: 20.0)),
               ],
             ),
           ),

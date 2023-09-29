@@ -88,7 +88,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin{
 
 somethingWentWrong(){
   return const AlertDialog(
-    title: Text('Warning!'),
+    title: Text('Warning!', style: TextStyle(fontSize: 20.0),),
     content: SingleChildScrollView(
       child: ListBody(
         children: <Widget>[

@@ -191,7 +191,7 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
             leading: Builder(
               builder: (BuildContext context) {
                 return IconButton(
-                  icon: const Icon(Icons.arrow_back),
+                  icon: const Icon(Icons.arrow_back, color: kWhiteColor,),
                   onPressed: () {
                     Navigator.pushNamed(context, '/task_screen');
                   },
@@ -203,7 +203,7 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
 
             ],
             centerTitle: true,
-            title: const Text('Add Task'),
+            title: const Text('Add Task', style: TextStyle(color: kWhiteColor),),
             backgroundColor: kThemeBlueColor,
           ),
           body: SingleChildScrollView(
@@ -273,11 +273,11 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Warning!', style: TextStyle(color: kThemeBlueColor)),
+          title: const Text('Warning!', style: TextStyle(color: kThemeBlueColor,fontSize: 20.0)),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('You have added no title. Please make sure to add at least the title before pressing the add button.', style: TextStyle(color: kThemeBlueColor)),
+                Text('You have added no title. Please make sure to add at least the title before pressing the add button.', style: TextStyle(color: kThemeBlueColor,fontSize: 20.0)),
               ],
             ),
           ),
