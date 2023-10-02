@@ -48,6 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
               builder: (BuildContext context) {
                 return IconButton(
                   icon: const Icon(Icons.menu),
+                  color: kWhiteColor,
                   onPressed: () {
                     Scaffold.of(context).openDrawer();
                   },
@@ -59,7 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
             ],
             centerTitle: true,
-            title: const Text('My Profile'),
+            title: const Text('My Profile', style:TextStyle(color: kWhiteColor),),
             backgroundColor: kThemeBlueColor,
           ),
           body: WillPopScope(
