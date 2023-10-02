@@ -75,6 +75,35 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
                         children: <Widget>[
                           Text('Task List Screen', style: TextStyle(color:kWhiteColor, fontSize: 30.0, fontWeight: FontWeight.w700),),
                           //Text('${tasksLength.toString()} Tasks', style: TextStyle(color:kWhiteColor, fontSize: 18),),
+                          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                            stream: FirebaseFirestore.instance.collection('taskData').where("user", isEqualTo: currentUser.toString()).snapshots(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) return Text('Error = ${snapshot.error}');
+
+                              if (snapshot.hasData) {
+                                final docs = snapshot.data!.docs;
+                                return docs.isEmpty ? Text('0 Tasks', style: TextStyle(color:kWhiteColor, fontSize: 18),) :
+                                (docs.length>=2 ? Text('${docs.length.toString()} Tasks', style: TextStyle(color:kWhiteColor, fontSize: 18),) : Text('1 Task', style: TextStyle(color:kWhiteColor, fontSize: 18),));
+                              }
+
+                              // return Container(child: Text('Hi'),);
+
+                              return Container(
+                                height: MediaQuery.of(context).size.height,
+                                width: MediaQuery.of(context).size.height,
+                                color: Colors.white,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    backgroundColor: kThemeBlueColor,
+                                    strokeWidth: 4.0,
+                                    color: Colors.white,
+                                    valueColor: animationController.drive(ColorTween(begin: Colors.blueAccent, end: kThemeBlueColor)),
+                                    //backgroundColor: Colors.white,
+                                  ),
+                                ),
+                              );
+                            },
+                          )
                         ],
                       ),
                     ),
@@ -103,16 +132,17 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
                                       itemBuilder: (_, i) {
                                         final data = docs[i].data();
                                         isChecked = data['isTaskComplete'];
+
                                         if(data['user'].toString() == currentUser.toString()){
 
                                           return Column(
                                             children: [
-                                              Container(
-                                                child: Text(
-                                                  "Total Tasks: ${(i+1).toString()}",
-                                                  style: TextStyle(color: kThemeBlueColor, fontWeight: FontWeight.bold, fontSize: 20.0),
-                                                ),
-                                              ),
+                                              // Container(
+                                              //   child: Text(
+                                              //     "Total Tasks: ${(i+1).toString()}",
+                                              //     style: TextStyle(color: kThemeBlueColor, fontWeight: FontWeight.bold, fontSize: 20.0),
+                                              //   ),
+                                              // ),
                                               SizedBox(height: 10,),
                                               ListTile(
                                                 title: SizedBox(
