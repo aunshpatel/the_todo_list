@@ -34,8 +34,8 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
     return WillPopScope(
       onWillPop: () async => false,
       child: FutureBuilder(
-          future: Firebase.initializeApp(),
-          builder: (context, snapshot){
+        future: Firebase.initializeApp(),
+        builder: (context, snapshot){
             return SafeArea(
               child:Scaffold(
                 backgroundColor: kThemeBlueColor,
@@ -74,7 +74,6 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text('Task List Screen', style: TextStyle(color:kWhiteColor, fontSize: 30.0, fontWeight: FontWeight.w700),),
-                          //Text('${tasksLength.toString()} Tasks', style: TextStyle(color:kWhiteColor, fontSize: 18),),
                           StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                             stream: FirebaseFirestore.instance.collection('taskData').where("user", isEqualTo: currentUser.toString()).snapshots(),
                             builder: (context, snapshot) {
@@ -86,7 +85,148 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
                                 (docs.length>=2 ? Text('${docs.length.toString()} Tasks', style: TextStyle(color:kWhiteColor, fontSize: 18),) : Text('1 Task', style: TextStyle(color:kWhiteColor, fontSize: 18),));
                               }
 
-                              // return Container(child: Text('Hi'),);
+                              return Container(
+                                height: MediaQuery.of(context).size.height,
+                                width: MediaQuery.of(context).size.height,
+                                color: Colors.white,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    backgroundColor: kThemeBlueColor,
+                                    strokeWidth: 4.0,
+                                    color: Colors.white,
+                                    valueColor: animationController.drive(ColorTween(begin: Colors.blueAccent, end: kThemeBlueColor)),
+                                  ),
+                                ),
+                              );
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                    //List
+                    Expanded(
+                      child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          decoration: const BoxDecoration(
+                            color: kWhiteColor,
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+                          ),
+                          child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                            stream: FirebaseFirestore.instance.collection('taskData').where("user", isEqualTo: currentUser.toString()).snapshots(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) return Text('Error = ${snapshot.error}');
+
+                              if (snapshot.hasData) {
+                                final docs = snapshot.data!.docs;
+                                return docs.isNotEmpty ?
+                                Container(
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  height: MediaQuery.of(context).size.height,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: ListView.builder(
+                                    itemCount: docs.length,
+                                    itemBuilder: (_, i) {
+                                      final data = docs[i].data();
+                                      isChecked = data['isTaskComplete'];
+
+                                      if(data['user'].toString() == currentUser.toString()){
+
+                                        return Column(
+                                          children: [
+                                            const SizedBox(height: 10,),
+                                            ListTile(
+                                              title: SizedBox(
+                                                width: MediaQuery.of(context).size.width-100,
+                                                child:Column(
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          SizedBox(
+                                                            width: 20.0,
+                                                            child: Text(
+                                                              '${(i+1).toString()}.',
+                                                              style: TextStyle(decoration: isChecked == true? TextDecoration.lineThrough : null, color: kThemeBlueColor, fontWeight: FontWeight.bold, fontSize: 20.0),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 2.0,
+                                                          ),
+                                                          Text(
+                                                            data['task'],
+                                                            style: TextStyle(decoration: isChecked == true? TextDecoration.lineThrough : null, color: kThemeBlueColor, fontWeight: FontWeight.bold, fontSize: 20.0),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          const SizedBox(
+                                                            width: 22.0,
+                                                          ),
+                                                          SizedBox(
+                                                            width:200.0,
+                                                            child: Text(
+                                                              data['description'],
+                                                              style: TextStyle(decoration: isChecked == true? TextDecoration.lineThrough : null, color: kThemeBlueColor, fontSize: 18.0),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  )
+                                              ),
+                                              trailing: SizedBox(
+                                                width: 72,
+                                                child: Row(
+                                                  children: [
+                                                    Checkbox(
+                                                      value: isChecked,
+                                                      activeColor: kThemeBlueColor,
+                                                      onChanged: (bool? value){
+                                                        setState(() {
+                                                          isChecked = value!;
+                                                          FirebaseFirestore.instance.collection('taskData').doc(docs[i].id).update({'isTaskComplete': isChecked});
+                                                        });
+                                                      },
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: (){
+                                                        _showMyDialog('Do you want to delete this task?', docs[i].id);
+                                                      },
+                                                      child: const Icon(Icons.delete),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        );
+                                      }
+                                    },
+                                  ),
+                                )  :
+                                Center(
+                                  child:Container(
+                                    height: MediaQuery.of(context).size.height-300,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: EmptyWidget(
+                                      image: "assets/images/im_emptyIcon_1.png",
+                                      packageImage: PackageImage.Image_1,
+                                      title: 'You Have No Tasks',
+                                      titleTextStyle: const TextStyle(
+                                        fontSize: 22,
+                                        color: kThemeBlueColor,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      subtitleTextStyle: const TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xffabb8d6),
+                                      ),
+                                      // Uncomment below statement to hide background animation
+                                      // hideBackgroundAnimation: true,
+                                    ),
+                                  ),
+                                );
+                              }
 
                               return Container(
                                 height: MediaQuery.of(context).size.height,
@@ -104,159 +244,7 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
                               );
                             },
                           )
-                        ],
-                      ),
-                    ),
-                    //List
-                    Expanded(
-                        child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                            decoration: const BoxDecoration(
-                              color: kWhiteColor,
-                              borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
-                            ),
-                            child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                              stream: FirebaseFirestore.instance.collection('taskData').where("user", isEqualTo: currentUser.toString()).snapshots(),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasError) return Text('Error = ${snapshot.error}');
-
-                                if (snapshot.hasData) {
-                                  final docs = snapshot.data!.docs;
-                                  return docs.isNotEmpty ?
-                                  Container(
-                                    padding: const EdgeInsets.only(top: 10.0),
-                                    height: MediaQuery.of(context).size.height,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: ListView.builder(
-                                      itemCount: docs.length,
-                                      itemBuilder: (_, i) {
-                                        final data = docs[i].data();
-                                        isChecked = data['isTaskComplete'];
-
-                                        if(data['user'].toString() == currentUser.toString()){
-
-                                          return Column(
-                                            children: [
-                                              // Container(
-                                              //   child: Text(
-                                              //     "Total Tasks: ${(i+1).toString()}",
-                                              //     style: TextStyle(color: kThemeBlueColor, fontWeight: FontWeight.bold, fontSize: 20.0),
-                                              //   ),
-                                              // ),
-                                              SizedBox(height: 10,),
-                                              ListTile(
-                                                title: SizedBox(
-                                                    width: MediaQuery.of(context).size.width-100,
-                                                    child:Column(
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            SizedBox(
-                                                              width: 20.0,
-                                                              child: Text(
-                                                                '${(i+1).toString()}.',
-                                                                style: TextStyle(decoration: isChecked == true? TextDecoration.lineThrough : null, color: kThemeBlueColor, fontWeight: FontWeight.bold, fontSize: 20.0),
-                                                              ),
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 2.0,
-                                                            ),
-                                                            Text(
-                                                              data['task'],
-                                                              style: TextStyle(decoration: isChecked == true? TextDecoration.lineThrough : null, color: kThemeBlueColor, fontWeight: FontWeight.bold, fontSize: 20.0),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            SizedBox(
-                                                              width: 22.0,
-                                                            ),
-                                                            SizedBox(
-                                                              width:200.0,
-                                                              child: Text(
-                                                                data['description'],
-                                                                style: TextStyle(decoration: isChecked == true? TextDecoration.lineThrough : null, color: kThemeBlueColor, fontSize: 18.0),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    )
-                                                ),
-                                                trailing: SizedBox(
-                                                  width: 72,
-                                                  child: Row(
-                                                    children: [
-                                                      Checkbox(
-                                                        value: isChecked,
-                                                        activeColor: kThemeBlueColor,
-                                                        onChanged: (bool? value){
-                                                          setState(() {
-                                                            isChecked = value!;
-                                                            FirebaseFirestore.instance.collection('taskData').doc(docs[i].id).update({'isTaskComplete': isChecked});
-                                                          });
-                                                        },
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: (){
-                                                          _showMyDialog('Do you want to delete this task?', docs[i].id);
-                                                        },
-                                                        child: Icon(Icons.delete),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          );
-                                        }
-                                      },
-                                    ),
-                                  )  :
-                                  Center(
-                                    child:Container(
-                                      height: MediaQuery.of(context).size.height-300,
-                                      width: MediaQuery.of(context).size.width,
-                                      child: EmptyWidget(
-                                        image: "assets/images/im_emptyIcon_1.png",
-                                        packageImage: PackageImage.Image_1,
-                                        title: 'You Have No Tasks',
-                                        titleTextStyle: TextStyle(
-                                          fontSize: 22,
-                                          color: kThemeBlueColor,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        subtitleTextStyle: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xffabb8d6),
-                                        ),
-                                        // Uncomment below statement to hide background animation
-                                        // hideBackgroundAnimation: true,
-                                      ),
-                                    ),
-                                  );
-                                }
-
-                                // return Container(child: Text('Hi'),);
-
-                                return Container(
-                                  height: MediaQuery.of(context).size.height,
-                                  width: MediaQuery.of(context).size.height,
-                                  color: Colors.white,
-                                  child: Center(
-                                    child: CircularProgressIndicator(
-                                      backgroundColor: kThemeBlueColor,
-                                      strokeWidth: 4.0,
-                                      color: Colors.white,
-                                      valueColor: animationController.drive(ColorTween(begin: Colors.blueAccent, end: kThemeBlueColor)),
-                                      //backgroundColor: Colors.white,
-                                    ),
-                                  ),
-                                );
-                              },
-                            )
-                        )
+                      )
                     ),
                   ],
                 ),
@@ -276,7 +264,7 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text(text, style: TextStyle(color: kThemeBlueColor, fontSize: 20.0)),
+                Text(text, style: const TextStyle(color: kThemeBlueColor, fontSize: 20.0)),
               ],
             ),
           ),
@@ -308,7 +296,7 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Success!', style: TextStyle(color: kThemeBlueColor)),
-          content: SingleChildScrollView(
+          content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 Text('Task deleted successfully!', style: TextStyle(color: kThemeBlueColor)),
