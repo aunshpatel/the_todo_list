@@ -81,7 +81,7 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const Text(
-                      'Add a New Task and Description Below',
+                      'Add a new task and description below',
                       textAlign: TextAlign.center,
                       style:TextStyle(
                         fontSize: 24,
