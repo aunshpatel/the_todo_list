@@ -73,7 +73,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: <Widget>[
                   const SizedBox(height: 15.0,),
                   SizedBox(
-                    height: 180,
+                    height: 190,
                     child: CurrentUserDetails(),
                   ),
                 ],
@@ -116,7 +116,7 @@ class CurrentUserDetails extends StatelessWidget {
                     style: const TextStyle(color: kThemeBlueColor,fontSize: 18),
                     decoration: const InputDecoration(
                       enabled: false,
-                      contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
+                      contentPadding: EdgeInsets.fromLTRB(12.0, 5.0, 12.0, 10.0),
                       hintStyle: TextStyle(color: kThemeBlueColor),
                       border: InputBorder.none,
                     ),
@@ -146,7 +146,7 @@ class CurrentUserDetails extends StatelessWidget {
                     style: const TextStyle(color: kThemeBlueColor,fontSize: 18),
                     decoration: const InputDecoration(
                       enabled: false,
-                      contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
+                      contentPadding: EdgeInsets.fromLTRB(12.0, 5.0, 12.0, 10.0),
                       hintStyle: TextStyle(color: kThemeBlueColor),
                       border: InputBorder.none,
                     ),
