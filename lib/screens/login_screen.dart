@@ -38,208 +38,216 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          backgroundColor: kWhiteColor,
-          body:Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Column(
+    return Scaffold(
+      backgroundColor: kWhiteColor,
+      appBar:  AppBar(
+        leading: Builder(
+          builder: (BuildContext context) {
+            return SizedBox();
+          },
+        ),
+        elevation: 0,
+        centerTitle: true,
+        backgroundColor: kWhiteColor,
+      ),
+      body:Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Flexible(
+              child: HeroLogo(height:250,image:'images/todo-list-blue-transparent-bg.png', tag:'photo'),
+            ),
+            const SizedBox(
+              height: 15.0,
+            ),
+            TextField(
+              controller: emailController,
+              keyboardType: TextInputType.emailAddress,
+              onChanged:(value){
+                email = emailController.text;
+                SharedPreferences.getInstance().then((prefs) {
+                  prefs.setString('email', email);
+                },);
+              },
+              style: const TextStyle(color: kThemeBlueColor),
+              decoration: emailInputDecoration('Enter your email',),
+            ),
+            const SizedBox(
+              height: 15.0,
+            ),
+            TextField(
+              controller: passwordController,
+              obscureText: _passwordVisible == false ? true : false,
+              onChanged:(value){
+                pwd = passwordController.text;
+                SharedPreferences.getInstance().then((prefs) {
+                  prefs.setString('password', pwd);
+                },);
+              },
+              style: const TextStyle(color: kThemeBlueColor),
+              decoration: passwordInputDecoration(
+                  'Enter your password',
+                  _passwordVisible,
+                      (){
+                    setState(() {
+                      _passwordVisible = !_passwordVisible;
+                    });
+                  }
+              ),
+            ),
+            const SizedBox(
+              height: 24.0,
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Flexible(
-                  child: HeroLogo(height:250,image:'images/todo-list-blue-transparent-bg.png', tag:'photo'),
-                ),
-                const SizedBox(
-                  height: 15.0,
-                ),
-                TextField(
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  onChanged:(value){
-                    email = emailController.text;
-                    SharedPreferences.getInstance().then((prefs) {
-                      prefs.setString('email', email);
-                    },);
-                  },
-                  style: const TextStyle(color: kThemeBlueColor),
-                  decoration: emailInputDecoration('Enter your email',),
-                ),
-                const SizedBox(
-                  height: 15.0,
-                ),
-                TextField(
-                  controller: passwordController,
-                  obscureText: _passwordVisible == false ? true : false,
-                  onChanged:(value){
-                    pwd = passwordController.text;
-                    SharedPreferences.getInstance().then((prefs) {
-                      prefs.setString('password', pwd);
-                    },);
-                  },
-                  style: const TextStyle(color: kThemeBlueColor),
-                  decoration: passwordInputDecoration(
-                    'Enter your password',
-                    _passwordVisible,
-                        (){
-                      setState(() {
-                        _passwordVisible = !_passwordVisible;
-                      });
-                    }
+              children: [
+                const Text(
+                  'New User?',
+                  style: TextStyle(
+                      color: kThemeBlueColor,
+                      fontSize: 16
                   ),
                 ),
                 const SizedBox(
-                  height: 24.0,
+                  width: 5,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'New User?',
-                      style: TextStyle(
-                        color: kThemeBlueColor,
-                        fontSize: 16
-                      ),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.pushNamed(context, '/registration_screen');
-                      },
-                      child: Text(
-                        'Register Here',
-                        style: TextStyle(
-                          color: kThemeBlueColor,
-                          decoration: TextDecoration.underline,
-                          fontSize: 16
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 24.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Checkbox(
-                          checkColor: kThemeBlueColor,
-                          side: MaterialStateBorderSide.resolveWith(
-                            (states) => const BorderSide(width: 1.0, color: kThemeBlueColor),
-                          ),
-                          fillColor: MaterialStateProperty.all(Colors.transparent),
-                          value: _isRememberMe,
-                          onChanged: isRememberMeDisabled == false ? (value){
-                            setState(() {
-                              _isRememberMe = value!;
-                            });
-                            actionRemeberMe(_isRememberMe);
-                          } : null,
-                        ),
-                        Text(
-                          'Remember Me',
-                          style: TextStyle(
-                              color: kThemeBlueColor,
-                              fontSize: 16
-                          ),
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Checkbox(
-                          checkColor: kThemeBlueColor,
-                          side: MaterialStateBorderSide.resolveWith(
-                            (states) => const BorderSide(width: 1.0, color: kThemeBlueColor),
-                          ),
-                          fillColor: MaterialStateProperty.all(Colors.transparent),
-                          value: automaticLogin,
-                          onChanged: (value){
-                            setState(() {
-                              automaticLogin = value!;
-                            });
-                            autoLogin(automaticLogin);
-                          },
-                        ),
-                        Text(
-                          'Auto Login',
-                          style: TextStyle(
-                            color: kThemeBlueColor,
-                            fontSize: 16
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 24.0,
-                ),
-                RoundedButton(
-                  colour:kThemeBlueColor,
-                  title:'Login',
-                  onPress:() async {
-                    if(emailController.text != '' && passwordController.text != '') {
-                      if(emailController.text.length < 6){
-                        _showMyDialog('Incorrect password! Please check your password length and try again.');
-                      }
-                      else{
-                        setState(() {
-                          showSpinner = true;
-                        });
-                        try{
-                          final user = await auth.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
-                          if(user != null){
-                            Navigator.pushNamed(context, '/task_screen');
-                            setState(() {
-                              SharedPreferences.getInstance().then((prefs) {
-                                prefs.setBool('isLoggedIn', true);
-                              },);
-                              currentUser = emailController.text;
-                              showSpinner = false;
-                            });
-
-                          }
-                          else{
-                            _showMyDialog('Incorrect email or password. Please enter your email and password again.');
-                            setState(() {
-                              showSpinner = false;
-                            });
-                          }
-                        } catch(e){
-                          setState(() {
-                            showSpinner = false;
-                          });
-                          return _showMyDialog('${e.toString()}');
-                        }
-                      }
-                    }
-                    else if(passwordController.text.isEmpty && emailController.text.isNotEmpty){
-                      _showMyDialog('No password entered. Please enter the your password.');
-                    }
-                    else if(passwordController.text.isNotEmpty && emailController.text.isEmpty){
-                      _showMyDialog('No email id entered. Please enter your email id.');
-                    }
-                    else if(emailController.text.isEmpty && passwordController.text.isEmpty){
-                      _showMyDialog('Email and password fields are empty. Please enter both values to login.');
-                    }
-                    else if(emailController.text == '' && passwordController.text != ''){
-                      _showMyDialog('Please enter your email id to login.');
-                    }
-                    else if(emailController.text == '' && passwordController.text != ''){
-                      _showMyDialog('Please enter your password to login.');
-                    }
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pushNamed(context, '/registration_screen');
                   },
-                ),
+                  child: const Text(
+                    'Register Here',
+                    style: TextStyle(
+                        color: kThemeBlueColor,
+                        decoration: TextDecoration.underline,
+                        fontSize: 16
+                    ),
+                  ),
+                )
               ],
             ),
-          ),
-        )
+            const SizedBox(
+              height: 24.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Checkbox(
+                      checkColor: kThemeBlueColor,
+                      side: MaterialStateBorderSide.resolveWith(
+                            (states) => const BorderSide(width: 1.0, color: kThemeBlueColor),
+                      ),
+                      fillColor: MaterialStateProperty.all(Colors.transparent),
+                      value: _isRememberMe,
+                      onChanged: isRememberMeDisabled == false ? (value){
+                        setState(() {
+                          _isRememberMe = value!;
+                        });
+                        actionRemeberMe(_isRememberMe);
+                      } : null,
+                    ),
+                    const Text(
+                      'Remember Me',
+                      style: TextStyle(
+                          color: kThemeBlueColor,
+                          fontSize: 16
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  children: [
+                    Checkbox(
+                      checkColor: kThemeBlueColor,
+                      side: MaterialStateBorderSide.resolveWith(
+                            (states) => const BorderSide(width: 1.0, color: kThemeBlueColor),
+                      ),
+                      fillColor: MaterialStateProperty.all(Colors.transparent),
+                      value: automaticLogin,
+                      onChanged: (value){
+                        setState(() {
+                          automaticLogin = value!;
+                        });
+                        autoLogin(automaticLogin);
+                      },
+                    ),
+                    const Text(
+                      'Auto Login',
+                      style: TextStyle(
+                          color: kThemeBlueColor,
+                          fontSize: 16
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 24.0,
+            ),
+            RoundedButton(
+              colour:kThemeBlueColor,
+              title:'Login',
+              onPress:() async {
+                if(emailController.text != '' && passwordController.text != '') {
+                  if(emailController.text.length < 6){
+                    _showMyDialog('Incorrect password! Please check your password length and try again.');
+                  }
+                  else{
+                    setState(() {
+                      showSpinner = true;
+                    });
+                    try{
+                      final user = await auth.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
+                      if(user != null){
+                        Navigator.pushNamed(context, '/task_screen');
+                        setState(() {
+                          SharedPreferences.getInstance().then((prefs) {
+                            prefs.setBool('isLoggedIn', true);
+                          },);
+                          currentUser = emailController.text;
+                          showSpinner = false;
+                        });
+
+                      }
+                      else{
+                        _showMyDialog('Incorrect email or password. Please enter your email and password again.');
+                        setState(() {
+                          showSpinner = false;
+                        });
+                      }
+                    } catch(e){
+                      setState(() {
+                        showSpinner = false;
+                      });
+                      return _showMyDialog('${e.toString()}');
+                    }
+                  }
+                }
+                else if(passwordController.text.isEmpty && emailController.text.isNotEmpty){
+                  _showMyDialog('No password entered. Please enter the your password.');
+                }
+                else if(passwordController.text.isNotEmpty && emailController.text.isEmpty){
+                  _showMyDialog('No email id entered. Please enter your email id.');
+                }
+                else if(emailController.text.isEmpty && passwordController.text.isEmpty){
+                  _showMyDialog('Email and password fields are empty. Please enter both values to login.');
+                }
+                else if(emailController.text == '' && passwordController.text != ''){
+                  _showMyDialog('Please enter your email id to login.');
+                }
+                else if(emailController.text == '' && passwordController.text != ''){
+                  _showMyDialog('Please enter your password to login.');
+                }
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 

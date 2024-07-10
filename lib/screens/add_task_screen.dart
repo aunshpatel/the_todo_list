@@ -45,87 +45,86 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
   );
 }
 
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          backgroundColor: kWhiteColor,
-          endDrawerEnableOpenDragGesture: false,
-          // drawer: MyDrawer(),
-          appBar: AppBar(
-            leading: Builder(
-              builder: (BuildContext context) {
-                return IconButton(
-                  icon: const Icon(Icons.arrow_back, color: kWhiteColor,),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/task_screen');
-                  },
-                );
-              },
-            ),
-            actions: <Widget>[
-
-            ],
-            centerTitle: true,
-            title: const Text('Add Task', style: TextStyle(color: kWhiteColor),),
-            backgroundColor: kThemeBlueColor,
+    return Scaffold(
+        resizeToAvoidBottomInset: true,
+        backgroundColor: kWhiteColor,
+        endDrawerEnableOpenDragGesture: false,
+        // drawer: MyDrawer(),
+        appBar: AppBar(
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.arrow_back, color: kWhiteColor,),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/task_screen');
+                },
+              );
+            },
           ),
-          body: SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.all(20.0),
-              decoration: const BoxDecoration(
-                color:kWhiteColor,
-                borderRadius: BorderRadius.only(topRight:Radius.circular(20.0),topLeft:Radius.circular(20.0),),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Text(
-                      'Add a new task and description below',
-                      textAlign: TextAlign.center,
-                      style:TextStyle(
-                        fontSize: 24,
-                        color: kThemeBlueColor,
-                        fontWeight: FontWeight.bold,
-                      )
-                  ),
-                  const SizedBox(height:20.0),
-                  TextField(
-                    controller: addTaskTitleController,
-                    focusNode: _nodeText1,
-                    autofocus: true,
-                    cursorColor: kThemeBlueColor,
-                    decoration: const InputDecoration(
-                        hintText: 'Please enter a title for the task'
-                    ),
-                  ),
-                  const SizedBox(height:20.0),
-                  TextField(
-                    maxLines: 8,
-                    controller: addTaskDescrController,
-                    cursorColor: kThemeBlueColor,
-                    decoration: const InputDecoration(
-                        hintText: 'Please enter description for the task'
-                    ),
-                  ),
-                  const SizedBox(height:20.0),
-                  ElevatedButton(
-                    onPressed: (){
-                      if(addTaskTitleController.text.isNotEmpty){
-                        addTask.collection('taskData').add({'task':addTaskTitleController.text,'description':addTaskDescrController.text, 'taskCreationDate':DateTime.now(),'isTaskComplete':false, 'user':currentUser});
-                        Navigator.pushNamed(context, '/task_screen');
-                      }
-                      else{
-                        _showMyDialog();
-                      }
-                    },
-                    child: const Text('Add', style: TextStyle(color: kWhiteColor),),
-                    style: ElevatedButton.styleFrom(backgroundColor: kThemeBlueColor),
-                  ),
-                ],
-              ),
+          actions: <Widget>[
+
+          ],
+          centerTitle: true,
+          title: const Text('Add Task', style: TextStyle(color: kWhiteColor),),
+          backgroundColor: kThemeBlueColor,
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(20.0),
+            decoration: const BoxDecoration(
+              color:kWhiteColor,
+              borderRadius: BorderRadius.only(topRight:Radius.circular(20.0),topLeft:Radius.circular(20.0),),
             ),
-          )
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text(
+                    'Add a new task and description below',
+                    textAlign: TextAlign.center,
+                    style:TextStyle(
+                      fontSize: 24,
+                      color: kThemeBlueColor,
+                      fontWeight: FontWeight.bold,
+                    )
+                ),
+                const SizedBox(height:20.0),
+                TextField(
+                  controller: addTaskTitleController,
+                  focusNode: _nodeText1,
+                  autofocus: true,
+                  cursorColor: kThemeBlueColor,
+                  decoration: const InputDecoration(
+                      hintText: 'Please enter a title for the task'
+                  ),
+                ),
+                const SizedBox(height:20.0),
+                TextField(
+                  maxLines: 8,
+                  controller: addTaskDescrController,
+                  cursorColor: kThemeBlueColor,
+                  decoration: const InputDecoration(
+                      hintText: 'Please enter description for the task'
+                  ),
+                ),
+                const SizedBox(height:20.0),
+                ElevatedButton(
+                  onPressed: (){
+                    if(addTaskTitleController.text.isNotEmpty){
+                      addTask.collection('taskData').add({'task':addTaskTitleController.text,'description':addTaskDescrController.text, 'taskCreationDate':DateTime.now(),'isTaskComplete':false, 'user':currentUser});
+                      Navigator.pushNamed(context, '/task_screen');
+                    }
+                    else{
+                      _showMyDialog();
+                    }
+                  },
+                  child: const Text('Add', style: TextStyle(color: kWhiteColor),),
+                  style: ElevatedButton.styleFrom(backgroundColor: kThemeBlueColor),
+                ),
+              ],
+            ),
+          ),
         )
     );
   }
