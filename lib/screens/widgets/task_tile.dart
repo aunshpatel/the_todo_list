@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../../consts.dart';
-import 'package:empty_widget/empty_widget.dart';
 
 class TaskTile extends StatefulWidget {
   const TaskTile({super.key});
@@ -123,22 +121,23 @@ class _TaskTileState extends State<TaskTile> with TickerProviderStateMixin{
             child:Container(
               height: MediaQuery.of(context).size.height-300,
               width: MediaQuery.of(context).size.width,
-              child: EmptyWidget(
-                image: "assets/images/im_emptyIcon_1.png",
-                packageImage: PackageImage.Image_1,
-                title: 'You Have No Tasks',
-                titleTextStyle: TextStyle(
-                  fontSize: 22,
-                  color: kThemeBlueColor,
-                  fontWeight: FontWeight.w500,
-                ),
-                subtitleTextStyle: TextStyle(
-                  fontSize: 14,
-                  color: Color(0xffabb8d6),
-                ),
-                // Uncomment below statement to hide background animation
-                // hideBackgroundAnimation: true,
-              ),
+              // child: EmptyWidget(
+              //   image: "assets/images/im_emptyIcon_1.png",
+              //   packageImage: PackageImage.Image_1,
+              //   title: 'You Have No Tasks',
+              //   titleTextStyle: TextStyle(
+              //     fontSize: 22,
+              //     color: kThemeBlueColor,
+              //     fontWeight: FontWeight.w500,
+              //   ),
+              //   subtitleTextStyle: TextStyle(
+              //     fontSize: 14,
+              //     color: Color(0xffabb8d6),
+              //   ),
+              //   // Uncomment below statement to hide background animation
+              //   // hideBackgroundAnimation: true,
+              // ),
+              child: Text('You Have No Tasks'),
             ),
           );
         }

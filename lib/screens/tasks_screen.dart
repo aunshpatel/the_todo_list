@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import '../consts.dart';
@@ -31,8 +30,10 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
+    // return WillPopScope(
+    return PopScope(
+      // onWillPop: () async => false,
+      canPop: false,
       child: FutureBuilder(
         future: Firebase.initializeApp(),
         builder: (context, snapshot){
@@ -208,22 +209,23 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
                                   child:Container(
                                     height: MediaQuery.of(context).size.height-300,
                                     width: MediaQuery.of(context).size.width,
-                                    child: EmptyWidget(
-                                      image: "assets/images/im_emptyIcon_1.png",
-                                      packageImage: PackageImage.Image_1,
-                                      title: 'You Have No Tasks',
-                                      titleTextStyle: const TextStyle(
-                                        fontSize: 22,
-                                        color: kThemeBlueColor,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      subtitleTextStyle: const TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xffabb8d6),
-                                      ),
-                                      // Uncomment below statement to hide background animation
-                                      // hideBackgroundAnimation: true,
-                                    ),
+                                    child: Text('You Have No Tasks'),
+                                    // child: EmptyWidget(
+                                    //   image: "assets/images/im_emptyIcon_1.png",
+                                    //   packageImage: PackageImage.Image_1,
+                                    //   title: 'You Have No Tasks',
+                                    //   titleTextStyle: const TextStyle(
+                                    //     fontSize: 22,
+                                    //     color: kThemeBlueColor,
+                                    //     fontWeight: FontWeight.w500,
+                                    //   ),
+                                    //   subtitleTextStyle: const TextStyle(
+                                    //     fontSize: 14,
+                                    //     color: Color(0xffabb8d6),
+                                    //   ),
+                                    //   // Uncomment below statement to hide background animation
+                                    //   // hideBackgroundAnimation: true,
+                                    // ),
                                   ),
                                 );
                               }
