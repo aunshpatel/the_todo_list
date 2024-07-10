@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import '../consts.dart';
 import 'widgets/side_drawer.dart';
+import 'package:lottie/lottie.dart';
 
 
 class TasksScreen extends StatefulWidget {
@@ -205,26 +206,37 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
                             ),
                           )  :
                           Center(
-                            child:Container(
-                              height: MediaQuery.of(context).size.height-300,
-                              width: MediaQuery.of(context).size.width,
-                              child: Text('You Have No Tasks'),
-                              // child: EmptyWidget(
-                              //   image: "assets/images/im_emptyIcon_1.png",
-                              //   packageImage: PackageImage.Image_1,
-                              //   title: 'You Have No Tasks',
-                              //   titleTextStyle: const TextStyle(
-                              //     fontSize: 22,
-                              //     color: kThemeBlueColor,
-                              //     fontWeight: FontWeight.w500,
-                              //   ),
-                              //   subtitleTextStyle: const TextStyle(
-                              //     fontSize: 14,
-                              //     color: Color(0xffabb8d6),
-                              //   ),
-                              //   // Uncomment below statement to hide background animation
-                              //   // hideBackgroundAnimation: true,
-                              // ),
+                            // child:Container(
+                            //   height: MediaQuery.of(context).size.height-300,
+                            //   width: MediaQuery.of(context).size.width,
+                            //   child: Text('You Have No Tasks'),
+                            //   child: EmptyWidget(
+                            //     image: "assets/images/im_emptyIcon_1.png",
+                            //     packageImage: PackageImage.Image_1,
+                            //     title: 'You Have No Tasks',
+                            //     titleTextStyle: const TextStyle(
+                            //       fontSize: 22,
+                            //       color: kThemeBlueColor,
+                            //       fontWeight: FontWeight.w500,
+                            //     ),
+                            //     subtitleTextStyle: const TextStyle(
+                            //       fontSize: 14,
+                            //       color: Color(0xffabb8d6),
+                            //     ),
+                            //     // Uncomment below statement to hide background animation
+                            //     // hideBackgroundAnimation: true,
+                            //   ),
+                            // ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Lottie.asset('images/lottieAnimation.json', width: 200, height: 200),
+                                // const SizedBox(height: 16),
+                                // const Text(
+                                //   'No Tasks',
+                                //   style: TextStyle(fontSize: 18, color: Colors.grey),
+                                // ),
+                              ],
                             ),
                           );
                         }

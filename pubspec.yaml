@@ -41,6 +41,7 @@ dependencies:
   cloud_firestore: ^5.1.0
   shared_preferences: ^2.0.20
 #  empty_widget: ^0.0.5
+  lottie: ^3.1.2
   keyboard_actions: ^4.1.0
   onboarding: ^4.0.2
   flutter_overboard: ^3.1.3
