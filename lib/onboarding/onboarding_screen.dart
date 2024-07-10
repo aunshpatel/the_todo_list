@@ -405,7 +405,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             content: Text("You have skipped the onboarding steps. They can be visited again from menu later on."),
           ));
         },
-        finishText: 'GO TO Task Screen',
+        finishText: 'GO TO TASK SCREEN',
         //: 'GO TO TASK SCREEN',
         finishCallback: () {
           Navigator.pushNamed(context, '/task_screen');
