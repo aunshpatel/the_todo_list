@@ -209,6 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           SharedPreferences.getInstance().then((prefs) {
                             prefs.setBool('isLoggedIn', true);
                           },);
+                          isLoggedIn = true;
                           currentUser = emailController.text;
                           showSpinner = false;
                         });
